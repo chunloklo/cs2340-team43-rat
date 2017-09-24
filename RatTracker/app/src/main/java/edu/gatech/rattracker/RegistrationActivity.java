@@ -99,7 +99,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     @Override
                     protected void onPostExecute(String result) {
-                        if (result != "") {
+                        if (!result.equals("")) {
                             Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
                             Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
                             startActivity(profile);
