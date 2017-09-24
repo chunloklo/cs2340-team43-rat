@@ -17,19 +17,19 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_registration);
 
-        final String logTag = "LoginActivity";
+        final String logTag = "RegistrationActivity";
 
         final EditText usernameButton = (EditText) findViewById(R.id.usernameInput);
         final EditText passwordButton = (EditText) findViewById(R.id.passwordInput);
 
-        Button loginButton = (Button) findViewById(R.id.registerButton);
+        Button registerButton = (Button) findViewById(R.id.registerButton);
         Button backButton = (Button) findViewById(R.id.backButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     protected String doInBackground(Void... voids) {
                         try {
-                            URL url = new URL(BackendManager.generateLoginURL(username, password));
+                            URL url = new URL(BackendManager.generateRegistrationURL(username, password));
                             try {
                                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                                 int statusCode = urlConnection.getResponseCode();
                                 if (statusCode != 200) {
                                     // bad stuff happened
-                                    Log.d(logTag, "CRITICAL: Login failed, response code " + statusCode);
+                                    Log.d(logTag, "CRITICAL: Registration failed, response code " + statusCode);
                                     return "";
                                 } else {
                                     try {
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
                             startActivity(profile);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }.execute();
@@ -114,6 +114,5 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
     }
 }

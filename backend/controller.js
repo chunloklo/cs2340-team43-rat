@@ -14,14 +14,26 @@ module.exports = {};
 
 module.exports.register = function (req, res) {
     console.log("Registering user")
-    db.insert({
-        username: req.params.username,
-        password: req.params.password
+
+    db.findOne({
+        username: req.params.username
     }, function (err, doc) {
-        if (err) {
+    //if there are no duplicates
+        if (doc === null) {
+            db.insert({
+                username: req.params.username,
+                password: req.params.password
+            }, function (err, doc) {
+                if (err) {
+                    res.status(500).send("Uh oh, " + err);
+                } else {
+                    res.status(200).send(doc._id);
+                }
+            });
+        } else if (err) {
             res.status(500).send("Uh oh, " + err);
         } else {
-            res.status(200).send(doc._id);
+            res.status(400).send("User exists");
         }
     });
 

@@ -20,23 +20,20 @@ public class BackendManager {
     public final static String loginURL = backendURL + "api/login/";
     public final static String registerURL = backendURL + "api/register/";
     private final static String logTag = "BackendManager";
-
-    private static int passLength = 6;
+    private final static int passLength = 6;
 
     private static String userToken, username = null;
 
     public static void setUserToken(String newToken) {
         userToken = newToken;
     }
-
     public static String getUserToken() {
         return userToken;
     }
 
     public static void setUsername(String newUsername) {
-        userToken = newUsername;
+        username = newUsername;
     }
-
     public static String getUsername() {
         return username;
     }
@@ -46,9 +43,6 @@ public class BackendManager {
     }
 
     public static String generateRegistrationURL(String user, String pass) {
-        Log.d(logTag + " b", BackendManager.backendURL);
-        Log.d(logTag + " r", BackendManager.registerURL);
-        Log.d(logTag + " uh", BackendManager.registerURL + encodeURIComponent(user) + "/" + encodeURIComponent(pass));
         return BackendManager.registerURL + encodeURIComponent(user) + "/" + encodeURIComponent(pass) + "/";
     }
 
@@ -112,5 +106,10 @@ public class BackendManager {
         }
 
         return true;
+    }
+
+    public static void logOut() {
+        setUserToken(null);
+        setUsername(null);
     }
 }

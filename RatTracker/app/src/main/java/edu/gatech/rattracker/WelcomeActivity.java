@@ -17,11 +17,20 @@ public class WelcomeActivity extends AppCompatActivity {
         final Context thisContext = this;
 
         Button loginButton = (Button) findViewById(R.id.welcomeLoginButton);
+        Button registerButton = (Button) findViewById(R.id.welcomeRegisterButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(thisContext, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(thisContext, RegistrationActivity.class);
                 startActivity(intent);
             }
         });
