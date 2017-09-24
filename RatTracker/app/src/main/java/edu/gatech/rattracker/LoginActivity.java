@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                         String result = BackendManager.getStringFromInputStream(in);
                                         Log.d(logTag, "Verified user with ID " + result);
-                                        BackendManager.setUserToken(result);
+                                        BackendManager.handleAuthResult(result);
                                         BackendManager.setUsername(username);
                                         urlConnection.disconnect();
                                         return "Welcome " + username;

@@ -5,7 +5,8 @@ module.exports = {};
 /*
     {
         username: String,
-        password: String
+        password: String,
+        admin: boolean
     }
 
     I am beyond lazy so we will not be doing password hashing
@@ -25,7 +26,8 @@ module.exports.register = function (req, res) {
         if (doc === null) {
             db.insert({
                 username: req.params.username,
-                password: req.params.password
+                password: req.params.password,
+                admin: false
             }, function (err, doc) {
                 if (err) {
                     message = "Registration Insertion Error, " + err;
@@ -33,7 +35,7 @@ module.exports.register = function (req, res) {
                     console.log(message);
                 } else {
                     message = "Successfully registered user " + req.params.username;
-                    res.status(200).send(doc._id);
+                    res.status(200).send(doc._id + ";false");
                     console.log(message);
                 }
             });
@@ -68,10 +70,9 @@ module.exports.login = function (req, res) {
         } else {
             message = "Successfully logged in for user " + req.params.username;
             console.log(message);
-            res.status(200).send(doc._id);
+            res.status(200).send(doc._id + ";" + doc.admin);
         }
     });
-
 };
 
 module.exports.api = function (req, res) {

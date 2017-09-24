@@ -23,6 +23,7 @@ public class BackendManager {
     private final static int passLength = 6;
 
     private static String userToken, username = null;
+    private static boolean isAdmin = false;
 
     public static void setUserToken(String newToken) {
         userToken = newToken;
@@ -31,11 +32,28 @@ public class BackendManager {
         return userToken;
     }
 
+    public static void setAdmin(boolean newAdmin) {
+        isAdmin = newAdmin;
+    }
+    public static boolean getAdmin() {
+        return isAdmin;
+    }
+
     public static void setUsername(String newUsername) {
         username = newUsername;
     }
     public static String getUsername() {
         return username;
+    }
+
+    public static void handleAuthResult(String result) {
+        int splitIndex = result.lastIndexOf(";");
+        if (splitIndex == -1 || splitIndex == result.length() - 1) {
+            throw new IllegalArgumentException("No parameter");
+        }
+        setUserToken(result.substring(0, splitIndex));
+        setAdmin(result.substring(splitIndex + 1).toLowerCase().equals("true"));
+
     }
 
     public static String generateLoginURL(String user, String pass) {
@@ -111,5 +129,6 @@ public class BackendManager {
     public static void logOut() {
         setUserToken(null);
         setUsername(null);
+        setAdmin(false);
     }
 }
