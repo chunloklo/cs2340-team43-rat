@@ -6,7 +6,8 @@ module.exports = {};
     {
         username: String,
         password: String,
-        admin: boolean
+        admin: boolean,
+        tag: "account"
     }
 
     I am beyond lazy so we will not be doing password hashing
@@ -27,7 +28,8 @@ module.exports.register = function (req, res) {
             db.insert({
                 username: req.params.username,
                 password: req.params.password,
-                admin: false
+                admin: false,
+                tag: "account"
             }, function (err, doc) {
                 if (err) {
                     message = "Registration Insertion Error, " + err;

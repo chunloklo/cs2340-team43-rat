@@ -53,7 +53,6 @@ public class BackendManager {
         }
         setUserToken(result.substring(0, splitIndex));
         setAdmin(result.substring(splitIndex + 1).toLowerCase().equals("true"));
-
     }
 
     public static String generateLoginURL(String user, String pass) {
