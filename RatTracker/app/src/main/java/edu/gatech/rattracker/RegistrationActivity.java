@@ -59,7 +59,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 final FirebaseManager firebaseManager = FirebaseManager.getInstance();
 
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
-                final String username = usernameButton.getText().toString();
+                final String username = usernameButton.getText().toString().trim();
                 final String password = passwordButton.getText().toString();
                 final boolean isAdmin = checkbox.isChecked();
 
