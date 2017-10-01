@@ -40,14 +40,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         Button backButton = (Button) findViewById(R.id.backButton);
-        CheckBox adminButton = (CheckBox) findViewById(R.id.isAdminButton);
-
-        adminButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-
-            }
-        });
-
 
 
         backButton.setOnClickListener(new View.OnClickListener() {
