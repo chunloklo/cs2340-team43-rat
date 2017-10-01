@@ -11,6 +11,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,23 +54,44 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                FirebaseManager firebaseManager = FirebaseManager.getInstance();
+                final FirebaseManager firebaseManager = FirebaseManager.getInstance();
 
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
                 final String username = usernameButton.getText().toString();
                 final String password = passwordButton.getText().toString();
-                final Boolean isAdmin = checkbox.isChecked();
+                final boolean isAdmin = checkbox.isChecked();
 
                 if (!validData) {
                     return;
                 }
 
-                User.setUser(firebaseManager.writeNewUser(username, password, isAdmin));
+                DatabaseReference authenticator = firebaseManager.authenticateListener(username);
 
-                Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
-                Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(profile);
-                return;
+                authenticator.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+
+                        if (user == null) {
+                            // no user with this name exists; make them an acct
+                            User.setUser(firebaseManager.writeNewUser(username, password, isAdmin));
+
+                            Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
+                            Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
+                            startActivity(profile);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "A user with this username already exists", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
             }
         });
     }

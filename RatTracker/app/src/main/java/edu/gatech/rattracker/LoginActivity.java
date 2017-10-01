@@ -62,12 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(logTag, "Verified user with ID HELP ");
 
                 DatabaseReference authenticator = firebaseManager.authenticateListener(username);
-                if (authenticator == null) {
-                    Log.d(logTag, "oh nooo");
-                    return;
-                }
-                Log.d(logTag, authenticator.toString());
-                authenticator.addValueEventListener(new ValueEventListener() {
+
+                authenticator.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
