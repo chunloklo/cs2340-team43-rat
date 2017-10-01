@@ -16,9 +16,11 @@ public class FirebaseManager {
 
     }
 
+
     public void writeNewUser(String name, String password, Boolean isAdmin) {
         DatabaseReference myRef = database.getReference("Users");
-        myRef.setValue("Hello, World!");
+        User user = new User(name, password, isAdmin);
+        myRef.child(name).setValue(user);
     }
 
     private static FirebaseManager instance = null;
@@ -30,4 +32,16 @@ public class FirebaseManager {
         return instance;
     }
 
+}
+
+class User {
+    String name;
+    String password;
+    Boolean isAdmin;
+
+    public User(String name, String password, Boolean isAdmin) {
+        this.name = name;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
 }
