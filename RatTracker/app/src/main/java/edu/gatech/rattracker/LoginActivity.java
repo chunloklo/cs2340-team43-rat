@@ -62,12 +62,16 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(logTag, "Verified user with ID HELP ");
 
                 DatabaseReference authenticator = firebaseManager.authenticateListener(username);
+                if (authenticator == null) {
+                    Log.d(logTag, "oh nooo");
+                    return;
+                }
+                Log.d(logTag, authenticator.toString());
                 authenticator.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
-                        Log.e("AUTHETNICATE", user.password);
-                        if (user.name.equals(username) && user.password.equals(password)) {
+                        if (user != null && username.equals(user.name) && password.equals(user.password)) {
                             User.setUser(user);
                             Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
                             Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
@@ -83,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
                     }
                 });
-                return;
 
             }
         });
