@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,9 +29,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
         final EditText usernameButton = (EditText) findViewById(R.id.usernameInput);
         final EditText passwordButton = (EditText) findViewById(R.id.passwordInput);
+        final CheckBox checkbox = (CheckBox) findViewById(R.id.isAdminCheckBox);
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         Button backButton = (Button) findViewById(R.id.backButton);
+
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,9 +48,14 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                FirebaseManager firebaseManager = FirebaseManager.getInstance();
+                firebaseManager.write();
+
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
                 final String username = usernameButton.getText().toString();
                 final String password = passwordButton.getText().toString();
+                final Boolean isAdmin = checkbox.isChecked();
+
 
                 if (!validData) {
                     return;
