@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -18,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class RegistrationActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         Button backButton = (Button) findViewById(R.id.backButton);
+        CheckBox adminButton = (CheckBox) findViewById(R.id.isAdminButton);
+
+        adminButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+            }
+        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +49,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 startActivity(welcome);
             }
         });
+        
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,4 +126,7 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }
