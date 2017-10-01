@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class WelcomeActivity extends AppCompatActivity {
+    //landing screen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //when user clicks login
                 Intent intent = new Intent(thisContext, LoginActivity.class);
                 startActivity(intent);
             }
@@ -30,6 +32,7 @@ public class WelcomeActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //when user clicks register
                 Intent intent = new Intent(thisContext, RegistrationActivity.class);
                 startActivity(intent);
             }
