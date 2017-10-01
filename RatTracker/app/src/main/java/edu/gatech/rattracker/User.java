@@ -1,13 +1,15 @@
 package edu.gatech.rattracker;
 
+import java.io.Serializable;
+
 /**
  * Created by Chunlok Lo on 10/1/2017.
  */
 
 public class User {
-    String name;
-    String password;
-    Boolean isAdmin;
+    public String name;
+    public String password;
+    public boolean isAdmin;
 
     public User(String name, String password, Boolean isAdmin) {
         this.name = name;
@@ -16,13 +18,20 @@ public class User {
     }
 
     public User() {
-        name = "";
-        password = "";
+        name = null;
+        password = null;
         isAdmin = false;
     }
 
-    public static User currentUser = new User();
+    private static User currentUser = null;
+    public static void setUser(User newUser) {
+        currentUser = newUser;
+    }
     public static User getCurrentUser() {
         return currentUser;
+    }
+
+    public static void clearUser() {
+        currentUser = null;
     }
 }

@@ -16,52 +16,9 @@ import java.net.URLEncoder;
  */
 
 public class BackendManager {
-    public final static String backendURL = "http://10.0.2.2:3000/";
-    public final static String loginURL = backendURL + "api/login/";
-    public final static String registerURL = backendURL + "api/register/";
     private final static String logTag = "BackendManager";
     private final static int passLength = 6;
 
-    private static String userToken, username = null;
-    private static boolean isAdmin = false;
-
-    public static void setUserToken(String newToken) {
-        userToken = newToken;
-    }
-    public static String getUserToken() {
-        return userToken;
-    }
-
-    public static void setAdmin(boolean newAdmin) {
-        isAdmin = newAdmin;
-    }
-    public static boolean getAdmin() {
-        return isAdmin;
-    }
-
-    public static void setUsername(String newUsername) {
-        username = newUsername;
-    }
-    public static String getUsername() {
-        return username;
-    }
-
-    public static void handleAuthResult(String result) {
-        int splitIndex = result.lastIndexOf(";");
-        if (splitIndex == -1 || splitIndex == result.length() - 1) {
-            throw new IllegalArgumentException("No parameter");
-        }
-        setUserToken(result.substring(0, splitIndex));
-        setAdmin(result.substring(splitIndex + 1).toLowerCase().equals("true"));
-    }
-
-    public static String generateLoginURL(String user, String pass) {
-        return BackendManager.loginURL + encodeURIComponent(user) + "/" + encodeURIComponent(pass) + "/";
-    }
-
-    public static String generateRegistrationURL(String user, String pass) {
-        return BackendManager.registerURL + encodeURIComponent(user) + "/" + encodeURIComponent(pass) + "/";
-    }
 
     public static String encodeURIComponent(String s) {
         // this code block borrowed from https://stackoverflow.com/questions/14321873/java-url-encoding-urlencoder-vs-uri
@@ -82,35 +39,6 @@ public class BackendManager {
         return result;
     }
 
-    public static String getStringFromInputStream(InputStream is) {
-        // code borrowed from https://www.mkyong.com/java/how-to-convert-inputstream-to-string-in-java/
-        BufferedReader br = null;
-        StringBuilder sb = new StringBuilder();
-
-        String line;
-        try {
-
-            br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return sb.toString();
-
-    }
-
     public static boolean validateUserPassword(String username, String password, Context context) {
         if (username.trim().length() == 0) {
             Toast.makeText(context, "Please enter an alphanumeric username", Toast.LENGTH_SHORT).show();
@@ -126,8 +54,6 @@ public class BackendManager {
     }
 
     public static void logOut() {
-        setUserToken(null);
-        setUsername(null);
-        setAdmin(false);
+        User.clearUser();
     }
 }

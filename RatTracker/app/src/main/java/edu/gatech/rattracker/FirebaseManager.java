@@ -27,10 +27,11 @@ public class FirebaseManager {
 
     }
 
-    public void writeNewUser(String name, String password, Boolean isAdmin) {
+    public User writeNewUser(String name, String password, Boolean isAdmin) {
         DatabaseReference myRef = database.getReference("Users");
         User user = new User(name, password, isAdmin);
         myRef.child(name).setValue(user);
+        return user;
     }
 
     public DatabaseReference authenticateListener(String username) {

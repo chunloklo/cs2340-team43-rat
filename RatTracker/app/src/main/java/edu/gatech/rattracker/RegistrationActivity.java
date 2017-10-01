@@ -39,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                User.clearUser();
                 Intent welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(welcome);
             }
@@ -59,77 +60,12 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
-                firebaseManager.writeNewUser(username, password, isAdmin);
+                User.setUser(firebaseManager.writeNewUser(username, password, isAdmin));
 
                 Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
-                User.getCurrentUser().name = username;
-                User.getCurrentUser().password = password;
-                User.getCurrentUser().isAdmin = isAdmin;
                 Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(profile);
                 return;
-
-
-//                new AsyncTask<Void, String, String>() {
-//                    @Override
-//                    protected String doInBackground(Void... voids) {
-//                        try {
-//                            URL url = new URL(BackendManager.generateRegistrationURL(username, password));
-//                            try {
-//                                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//
-//                                urlConnection.setRequestMethod("GET");
-//                                urlConnection.setConnectTimeout(5000);
-//                                urlConnection.setReadTimeout(5000);
-//                                urlConnection.setRequestProperty("user-agent",  "Android");
-//                                urlConnection.setRequestProperty("Content-Type", "application/x-zip");
-//
-//
-//                                urlConnection.connect();
-//                                int statusCode = urlConnection.getResponseCode();
-//                                if (statusCode != 200) {
-//                                    // bad stuff happened
-//                                    Log.d(logTag, "CRITICAL: Registration failed, response code " + statusCode);
-//                                    return "";
-//                                } else {
-//                                    try {
-//                                        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-//
-//                                        String result = BackendManager.getStringFromInputStream(in);
-//                                        Log.d(logTag, "Verified user with ID " + result);
-//                                        BackendManager.handleAuthResult(result);
-//                                        BackendManager.setUsername(username);
-//                                        urlConnection.disconnect();
-//                                        return "Welcome " + username;
-//                                    } finally {
-//
-//                                    }
-//                                }
-//                            } catch (IOException ioe) {
-//                                Log.d(logTag, "Bad IO: " + ioe);
-//                            }
-//
-//                        } catch (MalformedURLException mue) {
-//                            Log.d(logTag, "Malformed URL: " + mue);
-//                        }
-//                        return "";
-//                    }
-//
-//                    @Override
-//                    protected void onPostExecute(String result) {
-//                        if (!result.equals("")) {
-//                            Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
-//                            Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
-//                            startActivity(profile);
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }.execute();
-
-
-
-
             }
         });
     }

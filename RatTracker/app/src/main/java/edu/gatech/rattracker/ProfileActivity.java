@@ -19,8 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
         Button logOut = (Button) findViewById(R.id.logOut);
 
 
-
-        if (User.getCurrentUser().name == "") {
+        if (User.getCurrentUser() == null || User.getCurrentUser().name == null) {
             // if user isn't logged in, send them back to welcome screen
             Intent welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
             startActivity(welcome);
@@ -32,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Bye " + User.getCurrentUser().name, Toast.LENGTH_SHORT).show();
-                BackendManager.logOut();
+                User.clearUser();
                 Intent welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(welcome);
             }
