@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
-                final String username = usernameButton.getText().toString();
+                final String username = usernameButton.getText().toString().trim();
                 final String password = passwordButton.getText().toString();
 
                 if (!validData) {
