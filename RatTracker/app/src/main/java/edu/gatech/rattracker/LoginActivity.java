@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,62 +57,95 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                new AsyncTask<Void, String, String>() {
+                FirebaseManager firebaseManager = FirebaseManager.getInstance();
+                Log.d(logTag, "Verified user with ID HELP ");
+
+                DatabaseReference authenticator = firebaseManager.authenticateListener(username);
+                authenticator.addValueEventListener(new ValueEventListener() {
                     @Override
-                    protected String doInBackground(Void... voids) {
-                        try {
-                            URL url = new URL(BackendManager.generateLoginURL(username, password));
-                            try {
-                                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-                                urlConnection.setRequestMethod("GET");
-                                urlConnection.setConnectTimeout(5000);
-                                urlConnection.setReadTimeout(5000);
-                                urlConnection.setRequestProperty("user-agent",  "Android");
-                                urlConnection.setRequestProperty("Content-Type", "application/x-zip");
-
-
-                                urlConnection.connect();
-                                int statusCode = urlConnection.getResponseCode();
-                                if (statusCode != 200) {
-                                    // bad stuff happened
-                                    Log.d(logTag, "CRITICAL: Login failed, response code " + statusCode);
-                                    return "";
-                                } else {
-                                    try {
-                                        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-                                        String result = BackendManager.getStringFromInputStream(in);
-                                        Log.d(logTag, "Verified user with ID " + result);
-                                        BackendManager.handleAuthResult(result);
-                                        BackendManager.setUsername(username);
-                                        urlConnection.disconnect();
-                                        return "Welcome " + username;
-                                    } finally {
-
-                                    }
-                                }
-                            } catch (IOException ioe) {
-                                Log.d(logTag, "Bad IO: " + ioe);
-                            }
-
-                        } catch (MalformedURLException mue) {
-                            Log.d(logTag, "Malformed URL: " + mue);
-                        }
-                        return "";
-                    }
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        if (!result.equals("")) {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        Log.e("AUTHETNICATE", user.password);
+                        if (user.name.equals(username) && user.password.equals(password)) {
+                            User.getCurrentUser().name = username;
+                            User.getCurrentUser().password = password;
+                            User.getCurrentUser().isAdmin = user.isAdmin;
                             Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
                             Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
                             startActivity(profile);
                         } else {
                             Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
                         }
+
                     }
-                }.execute();
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+//                        Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return;
+
+
+
+
+
+//                new AsyncTask<Void, String, String>() {
+//                    @Override
+//                    protected String doInBackground(Void... voids) {
+//                        try {
+//                            URL url = new URL(BackendManager.generateLoginURL(username, password));
+//                            try {
+//                                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//
+//                                urlConnection.setRequestMethod("GET");
+//                                urlConnection.setConnectTimeout(5000);
+//                                urlConnection.setReadTimeout(5000);
+//                                urlConnection.setRequestProperty("user-agent",  "Android");
+//                                urlConnection.setRequestProperty("Content-Type", "application/x-zip");
+//
+//
+//                                urlConnection.connect();
+//                                int statusCode = urlConnection.getResponseCode();
+//                                if (statusCode != 200) {
+//                                    // bad stuff happened
+//                                    Log.d(logTag, "CRITICAL: Login failed, response code " + statusCode);
+//                                    return "";
+//                                } else {
+//                                    try {
+//                                        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+//
+//                                        String result = BackendManager.getStringFromInputStream(in);
+//                                        Log.d(logTag, "Verified user with ID " + result);
+//                                        BackendManager.handleAuthResult(result);
+//                                        BackendManager.setUsername(username);
+//                                        urlConnection.disconnect();
+//                                        return "Welcome " + username;
+//                                    } finally {
+//
+//                                    }
+//                                }
+//                            } catch (IOException ioe) {
+//                                Log.d(logTag, "Bad IO: " + ioe);
+//                            }
+//
+//                        } catch (MalformedURLException mue) {
+//                            Log.d(logTag, "Malformed URL: " + mue);
+//                        }
+//                        return "";
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(String result) {
+//                        if (!result.equals("")) {
+//                            Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
+//                            Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
+//                            startActivity(profile);
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }.execute();
 
 
 

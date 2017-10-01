@@ -62,6 +62,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 firebaseManager.writeNewUser(username, password, isAdmin);
 
                 Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
+                User.getCurrentUser().name = username;
+                User.getCurrentUser().password = password;
+                User.getCurrentUser().isAdmin = isAdmin;
                 Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(profile);
                 return;
