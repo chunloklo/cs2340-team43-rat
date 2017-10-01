@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,20 +36,16 @@ public class RegistrationActivity extends AppCompatActivity {
 
         final EditText usernameButton = (EditText) findViewById(R.id.usernameInput);
         final EditText passwordButton = (EditText) findViewById(R.id.passwordInput);
+        final CheckBox checkbox = (CheckBox) findViewById(R.id.isAdminCheckBox);
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         Button backButton = (Button) findViewById(R.id.backButton);
-        CheckBox adminButton = (CheckBox) findViewById(R.id.isAdminButton);
 
-        adminButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-
-            }
-        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                User.clearUser();
                 Intent welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(welcome);
             }
@@ -55,72 +56,42 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                final FirebaseManager firebaseManager = FirebaseManager.getInstance();
+
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
                 final String username = usernameButton.getText().toString();
                 final String password = passwordButton.getText().toString();
+                final boolean isAdmin = checkbox.isChecked();
 
                 if (!validData) {
                     return;
                 }
 
-                new AsyncTask<Void, String, String>() {
+                DatabaseReference authenticator = firebaseManager.authenticateListener(username);
+
+                authenticator.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    protected String doInBackground(Void... voids) {
-                        try {
-                            URL url = new URL(BackendManager.generateRegistrationURL(username, password));
-                            try {
-                                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
 
-                                urlConnection.setRequestMethod("GET");
-                                urlConnection.setConnectTimeout(5000);
-                                urlConnection.setReadTimeout(5000);
-                                urlConnection.setRequestProperty("user-agent",  "Android");
-                                urlConnection.setRequestProperty("Content-Type", "application/x-zip");
+                        if (user == null) {
+                            // no user with this name exists; make them an acct
+                            User.setUser(firebaseManager.writeNewUser(username, password, isAdmin));
 
-
-                                urlConnection.connect();
-                                int statusCode = urlConnection.getResponseCode();
-                                if (statusCode != 200) {
-                                    // bad stuff happened
-                                    Log.d(logTag, "CRITICAL: Registration failed, response code " + statusCode);
-                                    return "";
-                                } else {
-                                    try {
-                                        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-                                        String result = BackendManager.getStringFromInputStream(in);
-                                        Log.d(logTag, "Verified user with ID " + result);
-                                        BackendManager.handleAuthResult(result);
-                                        BackendManager.setUsername(username);
-                                        urlConnection.disconnect();
-                                        return "Welcome " + username;
-                                    } finally {
-
-                                    }
-                                }
-                            } catch (IOException ioe) {
-                                Log.d(logTag, "Bad IO: " + ioe);
-                            }
-
-                        } catch (MalformedURLException mue) {
-                            Log.d(logTag, "Malformed URL: " + mue);
-                        }
-                        return "";
-                    }
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        if (!result.equals("")) {
                             Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
                             Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
                             startActivity(profile);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "A user with this username already exists", Toast.LENGTH_SHORT).show();
                         }
+
                     }
-                }.execute();
 
-
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
             }
