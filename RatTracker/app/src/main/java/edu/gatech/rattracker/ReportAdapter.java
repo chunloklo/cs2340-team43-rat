@@ -12,7 +12,7 @@ import android.widget.TextView;
  */
 
 public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private String[] mDataset;
+    private Report report;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -24,8 +24,8 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public ReportAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public ReportAdapter(Report report) {
+        this.report = report;
     }
 
     public ReportAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,12 +40,12 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        ((ViewHolder)holder).header.setText(mDataset[position]);
+        ((ViewHolder)holder).header.setText(report.getSighting(position).toString());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return report.size();
     }
 }

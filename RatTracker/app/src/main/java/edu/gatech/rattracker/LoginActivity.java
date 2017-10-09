@@ -45,11 +45,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // login logic
-
-                //testing logic
-                Intent report = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivity(report);
-
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
                 if (!validData) {
                     return;
@@ -71,9 +66,11 @@ public class LoginActivity extends AppCompatActivity {
                         User user = dataSnapshot.getValue(User.class);
                         if (user != null && username.equals(user.name) && password.equals(user.password)) {
                             User.setUser(user);
-                            Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
-                            Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
-                            startActivity(profile);
+                            Intent report = new Intent(getApplicationContext(), ReportActivity.class);
+                            startActivity(report);
+//                            Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
+//                            Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
+//                            startActivity(profile);
                         } else {
                             Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
                         }

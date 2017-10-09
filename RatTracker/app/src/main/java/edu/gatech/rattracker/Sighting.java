@@ -1,5 +1,7 @@
 package edu.gatech.rattracker;
 
+import java.util.Date;
+
 /**
  * Information Holder for the data of a single rat sighting.
  *
@@ -7,19 +9,22 @@ package edu.gatech.rattracker;
  * @version 1.0
  */
 
-public class RatSighting {
+public class Sighting {
     private String key;
     private long date;
     private String type;
-    private int zip;
+    private long zip;
     private String address;
     private String city;
     private String borough;
     private double longitude;
     private double latitude;
 
-    public RatSighting(String aKey, long aDate, String aType, int aZip, String aAddress,
-                       String aCity, String aBorough, double aLongitude, double aLatitude) {
+    public Sighting() {
+    }
+
+    public Sighting(String aKey, long aDate, String aType, long aZip, String aAddress,
+                    String aCity, String aBorough, double aLongitude, double aLatitude) {
         key = aKey;
         date = aDate;
         type = aType;
@@ -43,7 +48,7 @@ public class RatSighting {
         return type;
     }
 
-    public int getZip() {
+    public long getZip() {
         return zip;
     }
 
@@ -66,4 +71,11 @@ public class RatSighting {
     public double getLatitude() {
         return latitude;
     }
+
+    @Override
+    public String toString() {
+        Date date = new Date(this.date);
+        return date.toString() + " : " + address;
+    }
+
 }
