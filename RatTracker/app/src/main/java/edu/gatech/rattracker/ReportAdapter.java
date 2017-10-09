@@ -2,6 +2,7 @@ package edu.gatech.rattracker;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,26 @@ import android.widget.TextView;
 
 public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Report report;
+    private final String logTag = "reportAdapter";
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView header;
+        public Sighting sighting;
+
+        public void setSighting(Sighting sighting) {
+            this.sighting = sighting;
+        }
 
         public ViewHolder(View v) {
             super(v);
             header = itemView.findViewById(R.id.header);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(logTag, sighting.toString());
+                }
+            });
         }
     }
 
@@ -41,6 +54,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         ((ViewHolder)holder).header.setText(report.getSighting(position).toString());
+        ((ViewHolder)holder).setSighting(report.getSighting(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
