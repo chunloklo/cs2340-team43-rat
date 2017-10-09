@@ -41,7 +41,7 @@ public class ReportActivity extends AppCompatActivity {
 
         Log.d(logTag, "Creating query");
 //        Query query = reportListener.orderByChild("date").limitToFirst(100);
-        Query query = reportListener.limitToFirst(100);
+        Query query = reportListener.limitToLast(100);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -74,7 +74,7 @@ public class Sighting {
 
     @Override
     public String toString() {
-        Date date = new Date(this.date);
+        Date date = new Date(this.date * 1000);
         return date.toString() + " : " + address;
     }
 
