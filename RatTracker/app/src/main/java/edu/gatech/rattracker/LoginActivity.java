@@ -46,6 +46,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // login logic
 
+                //testing logic
+                Intent report = new Intent(getApplicationContext(), ReportActivity.class);
+                startActivity(report);
+
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
                 if (!validData) {
                     return;
