@@ -1,28 +1,18 @@
 package edu.gatech.rattracker;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -34,6 +24,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         final String logTag = "RegistrationActivity";
 
+        //fetch inputs and buttons
         final EditText usernameButton = (EditText) findViewById(R.id.usernameInput);
         final EditText passwordButton = (EditText) findViewById(R.id.passwordInput);
         final CheckBox checkbox = (CheckBox) findViewById(R.id.isAdminCheckBox);
@@ -45,33 +36,37 @@ public class RegistrationActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //on back
                 User.clearUser();
                 Intent welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(welcome);
             }
         });
-        
+
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //on register click
 
                 final FirebaseManager firebaseManager = FirebaseManager.getInstance();
 
+                //validate user input then fetches input
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
-                final String username = usernameButton.getText().toString().trim();
-                final String password = passwordButton.getText().toString();
-                final boolean isAdmin = checkbox.isChecked();
-
                 if (!validData) {
                     return;
                 }
+
+                final String username = usernameButton.getText().toString().trim();
+                final String password = passwordButton.getText().toString();
+                final boolean isAdmin = checkbox.isChecked();
 
                 DatabaseReference authenticator = firebaseManager.authenticateListener(username);
 
                 authenticator.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        //fetches user information and confirm it doesn't exist
                         User user = dataSnapshot.getValue(User.class);
 
                         if (user == null) {

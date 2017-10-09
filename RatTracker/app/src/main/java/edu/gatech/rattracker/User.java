@@ -1,7 +1,5 @@
 package edu.gatech.rattracker;
 
-import java.io.Serializable;
-
 /**
  * Created by Chunlok Lo on 10/1/2017.
  */
@@ -17,13 +15,16 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    //null user for Firebase casting when retrieving
     public User() {
         name = null;
         password = null;
         isAdmin = false;
     }
 
+    //static singleton User for current user
     private static User currentUser = null;
+
     public static void setUser(User newUser) {
         currentUser = newUser;
     }

@@ -1,7 +1,6 @@
 package edu.gatech.rattracker;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,13 +14,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -31,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final String logTag = "LoginActivity";
 
+        //fetch text input, button
         final EditText usernameButton = (EditText) findViewById(R.id.usernameInput);
         final EditText passwordButton = (EditText) findViewById(R.id.passwordInput);
 
@@ -40,24 +33,28 @@ public class LoginActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //return to welcome screen on back
                 User.clearUser();
                 Intent welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(welcome);
             }
         });
 
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // login logic
 
                 boolean validData = BackendManager.validateUserPassword(usernameButton.getText().toString(), passwordButton.getText().toString(), getApplicationContext());
-                final String username = usernameButton.getText().toString().trim();
-                final String password = passwordButton.getText().toString();
-
                 if (!validData) {
                     return;
                 }
 
+                final String username = usernameButton.getText().toString().trim();
+                final String password = passwordButton.getText().toString();
+
+                //Grabs FirebaseManager
                 FirebaseManager firebaseManager = FirebaseManager.getInstance();
                 Log.d(logTag, "Verified user with ID HELP ");
 
@@ -66,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 authenticator.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        //authenticates username and password in database
                         User user = dataSnapshot.getValue(User.class);
                         if (user != null && username.equals(user.name) && password.equals(user.password)) {
                             User.setUser(user);

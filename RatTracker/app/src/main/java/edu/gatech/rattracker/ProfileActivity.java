@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProfileActivity extends AppCompatActivity {
+    //profile activity screen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //sends user back to welcome screen on logout
                 Toast.makeText(getApplicationContext(), "Bye " + User.getCurrentUser().name, Toast.LENGTH_SHORT).show();
                 User.clearUser();
                 Intent welcome = new Intent(getApplicationContext(), WelcomeActivity.class);
