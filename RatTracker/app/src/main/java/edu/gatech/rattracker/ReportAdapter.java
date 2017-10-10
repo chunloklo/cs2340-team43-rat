@@ -1,5 +1,7 @@
 package edu.gatech.rattracker;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 
 /**
  * Created by Chunlok Lo on 10/8/2017.
@@ -32,6 +35,9 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View v) {
                     Log.d(logTag, sighting.toString());
+                    Context context = v.getContext();
+                    Intent reportDetail = new Intent(context, IndividualReportActivity.class);
+                    context.startActivity(reportDetail);
                 }
             });
         }

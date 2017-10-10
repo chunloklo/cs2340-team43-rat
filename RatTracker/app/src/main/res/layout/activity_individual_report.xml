@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@id/reportView"
+            android:id="@+id/reportView"
             android:layout_centerHorizontal="true"
             android:textAppearance="@android:style/TextAppearance.Material.Display1"
             android:layout_marginTop="100dp"/>
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="400dp"
-            android:id="@id/backButton"
+            android:id="@+id/returnButton"
             style="@style/buttonColor"
             android:text="Back"
             />
@@ -32,4 +32,4 @@
 
     </RelativeLayout>
 
-</android.support.constrnt.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
