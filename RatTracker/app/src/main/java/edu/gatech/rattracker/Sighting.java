@@ -1,5 +1,6 @@
 package edu.gatech.rattracker;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @version 1.0
  */
 
-public class Sighting {
+public class Sighting implements Serializable{
     private String key;
     private long date;
     private String type;
@@ -42,6 +43,11 @@ public class Sighting {
 
     public long getDate() {
         return date;
+    }
+
+    public String getReformedDate() {
+        Date date = new Date(this.date * 1000);
+        return date.toString();
     }
 
     public String getType() {

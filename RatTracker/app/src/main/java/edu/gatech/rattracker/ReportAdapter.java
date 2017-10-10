@@ -37,6 +37,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Log.d(logTag, sighting.toString());
                     Context context = v.getContext();
                     Intent reportDetail = new Intent(context, IndividualReportActivity.class);
+                    reportDetail.putExtra("sighting", sighting);
                     context.startActivity(reportDetail);
                 }
             });

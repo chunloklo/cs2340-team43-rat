@@ -15,15 +15,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/reportView"
+            android:id="@+id/reportDetails"
             android:layout_centerHorizontal="true"
+            android:textSize="10pt"
             android:textAppearance="@android:style/TextAppearance.Material.Display1"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="50dp"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="400dp"
+            android:layout_marginTop="450dp"
             android:id="@+id/returnButton"
             style="@style/buttonColor"
             android:text="Back"
