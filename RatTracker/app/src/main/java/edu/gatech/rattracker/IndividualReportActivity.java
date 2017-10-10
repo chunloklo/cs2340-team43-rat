@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 /**
  * Created by alan on 10/10/17.
+ * Represents the activity when an individual report is pressed. Shows details of that report
  */
 
 public class IndividualReportActivity extends AppCompatActivity {
