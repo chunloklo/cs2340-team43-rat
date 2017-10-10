@@ -29,7 +29,7 @@ public class IndividualReportActivity extends AppCompatActivity {
                 "Report Details: \n"
                 + "Key: " + sighting.getKey() + "\n"
                 + "Creation Date: " + sighting.getReformedDate() + "\n"
-                + "Location Type: " + sighting.getType() + "\n"
+                + "Location Type: " + sighting.getReformedLocationType() + "\n"
                 + "Zip Code: " + sighting.getZip() + "\n"
                 + "Address: " + sighting.getAddress() + "\n"
                 + "City: " + sighting.getCity() + "\n"
