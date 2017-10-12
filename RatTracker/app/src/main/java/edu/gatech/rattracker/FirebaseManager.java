@@ -1,7 +1,13 @@
 package edu.gatech.rattracker;
 
+import android.content.Intent;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Chunlok Lo on 10/1/2017.
@@ -35,6 +41,11 @@ public class FirebaseManager {
     //Returns references to a given username in Users
     public DatabaseReference authenticateListener(String username) {
         DatabaseReference myRef = database.getReference("Users").child(username);
+        return myRef;
+    }
+
+    public DatabaseReference reportListener() {
+        DatabaseReference myRef = database.getReference("").child("Sightings");
         return myRef;
     }
 
