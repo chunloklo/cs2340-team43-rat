@@ -1,12 +1,14 @@
 package edu.gatech.rattracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,8 +16,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -35,6 +35,8 @@ public class ReportActivity extends AppCompatActivity {
         reportView.setLayoutManager(reportLayoutManager);
         reportAdapter = new ReportAdapter(report);
         reportView.setAdapter(reportAdapter);
+
+        Button createButton = (Button) findViewById(R.id.createReportButton);
 
         FirebaseManager firebaseManager = FirebaseManager.getInstance();
         DatabaseReference reportListener = firebaseManager.reportListener();
@@ -70,12 +72,18 @@ public class ReportActivity extends AppCompatActivity {
             }
         });
 
-
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go to submit report view screen on back
+                Intent createReport = new Intent(getApplicationContext(), SubmitReportActivity.class);
+                startActivity(createReport);
+            }
+        });
 
     }
 
 
 }
-
 
 

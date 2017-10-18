@@ -38,6 +38,14 @@ public class FirebaseManager {
         return user;
     }
 
+    public boolean addSighting(Sighting sighting) {
+        DatabaseReference myRef = database.getReference("Sightings").push();
+        String key = myRef.getKey();
+        sighting.setKey(key);
+        myRef.setValue(sighting);
+        return true;
+    }
+
     //Returns references to a given username in Users
     public DatabaseReference authenticateListener(String username) {
         DatabaseReference myRef = database.getReference("Users").child(username);

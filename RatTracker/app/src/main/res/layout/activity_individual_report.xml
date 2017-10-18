@@ -28,8 +28,7 @@
             android:layout_marginTop="450dp"
             android:id="@+id/returnButton"
             style="@style/buttonColor"
-            android:text="Back"
-            />
+            android:text="Back" />
 
 
     </RelativeLayout>

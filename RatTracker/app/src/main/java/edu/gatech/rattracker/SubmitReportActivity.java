@@ -1,6 +1,7 @@
 package edu.gatech.rattracker;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,7 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
-import java.util.Random;
 
 /**
  * @author Jiseok Choi
@@ -51,32 +51,44 @@ public class SubmitReportActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Random r = new Random();
-                final String key = r.nextInt(Integer.MAX_VALUE) + "";
+            public void onClick(View view) { // TODO: handle no data
                 Calendar c = Calendar.getInstance();
                 final long date = c.getTimeInMillis();
-                final String type = locationType.getText().toString().trim();
+                final String type = Uri.encode(locationType.getText().toString().trim());
                 final String address = address1.getText().toString().trim();
                 String address2Text = address2.getText().toString().trim();
                 final String borough = address2Text.split(",")[0].trim();
-                final String city = "New York City";
+                final String city = "New York City"; // TODO: add logic for city that is not NYC
                 final short zip = Short.parseShort(address2Text.substring(address2Text.length() - 5));
-                final double longitude = Double.parseDouble(longitudeText.getText().toString());
+                final double longitude = Double.parseDouble(longitudeText.getText().toString()); // TODO: negative coordinates
                 final double latitude = Double.parseDouble(latitudeText.getText().toString());
-                Sighting sighting = new Sighting(key, date, type, zip, address, city, borough, longitude, latitude);
+                final Sighting sighting = new Sighting("", date, type, zip, address, city, borough, longitude, latitude);
 
                 // Grabs FirebaseManager
-                FirebaseManager firebaseManager = FirebaseManager.getInstance();
+                final FirebaseManager firebaseManager = FirebaseManager.getInstance();
+                DatabaseReference reportListener = firebaseManager.reportListener();
                 Log.d(logTag, "Report submission by verified user with ID "); // TODO: improve log text
 
-                boolean success = firebaseManager.addSighting(sighting);
-                if (success) {
-                    Intent report = new Intent(getApplicationContext(), ReportActivity.class);
-                    startActivity(report);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Failed to submit report", Toast.LENGTH_SHORT).show();
-                }
+                reportListener.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d(logTag, "obtaining dataSnapshot");
+                        boolean success = firebaseManager.addSighting(sighting);
+                        if (success) {
+                            Intent report = new Intent(getApplicationContext(), ReportActivity.class);
+                            startActivity(report);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Failed to submit report", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getApplicationContext(), "Submission failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
             }
         });
 

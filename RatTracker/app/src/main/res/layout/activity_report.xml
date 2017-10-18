@@ -6,10 +6,27 @@
     android:layout_height="match_parent"
     tools:context="edu.gatech.rattracker.ReportActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/reportView"
+    <RelativeLayout
         android:layout_width="368dp"
         android:layout_height="495dp"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteY="8dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reportView"
+            android:layout_width="368dp"
+            android:layout_height="445dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
+
+        <Button
+            android:id="@+id/createReportButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/reportView"
+            style="@style/buttonColor"
+            android:text="New Report" />
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>
