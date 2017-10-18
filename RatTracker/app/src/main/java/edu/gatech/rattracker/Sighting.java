@@ -16,7 +16,7 @@ public class Sighting implements Serializable{
     private String key;
     private long date;
     private String type;
-    private long zip;
+    private short zip;
     private String address;
     private String city;
     private String borough;
@@ -26,7 +26,7 @@ public class Sighting implements Serializable{
     public Sighting() {
     }
 
-    public Sighting(String aKey, long aDate, String aType, long aZip, String aAddress,
+    public Sighting(String aKey, long aDate, String aType, short aZip, String aAddress,
                     String aCity, String aBorough, double aLongitude, double aLatitude) {
         key = aKey;
         date = aDate;
