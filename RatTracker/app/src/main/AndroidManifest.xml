@@ -22,7 +22,8 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".IndividualReportActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".ReportActivity"></activity>
+        <activity android:name=".ReportActivity" />
+        <activity android:name=".SubmitReportActivity"></activity>
     </application>
 
 </manifest>

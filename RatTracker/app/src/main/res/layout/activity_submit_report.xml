@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:label="New Rat Report"
+    tools:context="edu.gatech.rattracker.SubmitReportActivity">
+
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <EditText
+            android:id="@+id/typeInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="38dp"
+            android:ems="15"
+            android:hint="Location Type"
+            android:inputType="textShortMessage"
+            tools:layout_editor_absoluteX="85dp"
+            tools:layout_editor_absoluteY="146dp" />
+
+        <EditText
+            android:id="@+id/addressInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:hint="Address"
+            android:inputType="textPostalAddress"
+            tools:layout_editor_absoluteX="85dp"
+            tools:layout_editor_absoluteY="146dp"
+            android:layout_below="@+id/typeInput"
+            android:layout_alignStart="@+id/typeInput"
+            android:layout_marginTop="11dp" />
+
+        <EditText
+            android:id="@+id/cityInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/addressInput"
+            android:layout_below="@+id/addressInput"
+            android:layout_marginTop="12dp"
+            android:ems="15"
+            android:hint="City"
+            android:inputType="textPostalAddress"
+            tools:layout_editor_absoluteX="85dp"
+            tools:layout_editor_absoluteY="146dp" />
+
+        <EditText
+            android:id="@+id/zipInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/longitudeInput"
+            android:layout_alignStart="@+id/longitudeInput"
+            android:ems="15"
+            android:hint="Zip"
+            android:inputType="number"
+            tools:layout_editor_absoluteX="85dp"
+            tools:layout_editor_absoluteY="146dp" />
+
+        <EditText
+            android:id="@+id/longitudeInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:hint="Longitude"
+            android:inputType="numberSigned|numberDecimal"
+            tools:layout_editor_absoluteX="85dp"
+            tools:layout_editor_absoluteY="146dp"
+            android:layout_above="@+id/latitudeInput"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:id="@+id/latitudeInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:ems="15"
+            android:hint="Latitude"
+            android:inputType="numberSigned|numberDecimal"
+            tools:layout_editor_absoluteX="85dp"
+            tools:layout_editor_absoluteY="146dp"
+            android:layout_above="@+id/submitButton"
+            android:layout_alignStart="@+id/longitudeInput" />
+
+        <Button
+            android:id="@+id/submitButton"
+            style="@style/buttonColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/latitudeInput"
+            android:layout_marginBottom="26dp"
+            android:layout_marginStart="46dp"
+            android:text="Submit"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="273dp" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            style="@style/buttonColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/submitButton"
+            android:layout_alignBottom="@+id/submitButton"
+            android:layout_alignEnd="@+id/latitudeInput"
+            android:layout_marginEnd="46dp"
+            android:text="Cancel"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="422dp" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/zipInput"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

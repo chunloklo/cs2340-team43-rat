@@ -12,7 +12,7 @@ import java.util.Date;
  * @version 1.0
  */
 
-public class Sighting implements Serializable{
+public class Sighting implements Serializable {
     private String key;
     private long date;
     private String type;
@@ -86,6 +86,10 @@ public class Sighting implements Serializable{
 
     public double getLatitude() {
         return latitude;
+    }
+
+    public void setKey(String aKey) {
+        key = aKey;
     }
 
     @Override

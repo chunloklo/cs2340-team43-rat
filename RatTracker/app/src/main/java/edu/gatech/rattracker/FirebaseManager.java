@@ -30,12 +30,20 @@ public class FirebaseManager {
 
     }
 
-    //writes value as uesr to database
+    //writes value as user to database
     public User writeNewUser(String name, String password, Boolean isAdmin) {
         DatabaseReference myRef = database.getReference("Users");
         User user = new User(name, password, isAdmin);
         myRef.child(name).setValue(user);
         return user;
+    }
+
+    public boolean addSighting(Sighting sighting) {
+        DatabaseReference myRef = database.getReference("Sightings").push();
+        String key = myRef.getKey();
+        sighting.setKey(key);
+        myRef.setValue(sighting);
+        return true;
     }
 
     //Returns references to a given username in Users
