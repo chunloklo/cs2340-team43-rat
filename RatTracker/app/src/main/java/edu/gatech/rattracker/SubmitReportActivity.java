@@ -52,7 +52,7 @@ public class SubmitReportActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { // TODO: handle no data
+            public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
                 final long date = c.getTimeInMillis();
                 final String type = Uri.encode(locationType.getText().toString().trim());
@@ -65,7 +65,7 @@ public class SubmitReportActivity extends AppCompatActivity {
                 double latitude;
                 try {
                     zip = Long.parseLong(zipText.getText().toString());
-                    longitude = Double.parseDouble(longitudeText.getText().toString()); // TODO: negative coordinates
+                    longitude = Double.parseDouble(longitudeText.getText().toString());
                     latitude = Double.parseDouble(latitudeText.getText().toString());
 
                 } catch (Exception e) {

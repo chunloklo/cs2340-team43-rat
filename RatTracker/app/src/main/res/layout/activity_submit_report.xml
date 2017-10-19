@@ -59,9 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/longitudeInput"
             android:layout_alignStart="@+id/longitudeInput"
-            android:layout_marginBottom="15dp"
             android:ems="15"
-            android:hint="zip"
+            android:hint="Zip"
             android:inputType="number"
             tools:layout_editor_absoluteX="85dp"
             tools:layout_editor_absoluteY="146dp" />
