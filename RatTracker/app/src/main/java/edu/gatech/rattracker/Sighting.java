@@ -1,5 +1,8 @@
 package edu.gatech.rattracker;
 
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Date;
 
 /**
@@ -9,7 +12,7 @@ import java.util.Date;
  * @version 1.0
  */
 
-public class Sighting {
+public class Sighting implements Serializable {
     private String key;
     private long date;
     private String type;
@@ -44,6 +47,19 @@ public class Sighting {
         return date;
     }
 
+    public String getReformedDate() {
+        Date date = new Date(this.date * 1000);
+        return date.toString();
+    }
+
+    public String getReformedLocationType() {
+        try {
+            return URLDecoder.decode(type, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return type;
+        }
+    }
+
     public String getType() {
         return type;
     }
@@ -72,9 +88,13 @@ public class Sighting {
         return latitude;
     }
 
+    public void setKey(String aKey) {
+        key = aKey;
+    }
+
     @Override
     public String toString() {
-        Date date = new Date(this.date);
+        Date date = new Date(this.date * 1000);
         return date.toString() + " : " + address;
     }
 
