@@ -1,9 +1,13 @@
 package edu.gatech.rattracker;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Information Holder for the data of a single rat sighting.
@@ -47,11 +51,14 @@ public class Sighting implements Serializable {
         return date;
     }
 
+    @Exclude
     public String getReformedDate() {
-        Date date = new Date(this.date * 1000);
-        return date.toString();
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf.format(new Date(this.date));
     }
 
+    @Exclude
     public String getReformedLocationType() {
         try {
             return URLDecoder.decode(type, "UTF-8");

@@ -55,6 +55,7 @@ public class SubmitReportActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
                 final long date = c.getTimeInMillis();
+                Log.d("Date", "" + date);
                 final String type = Uri.encode(locationType.getText().toString().trim());
                 final String address = addressText.getText().toString().trim();
                 final String borough = boroughText.getSelectedItem().toString();
