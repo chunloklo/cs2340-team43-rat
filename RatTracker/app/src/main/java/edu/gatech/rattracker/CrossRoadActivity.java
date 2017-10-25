@@ -53,7 +53,6 @@ public class CrossRoadActivity extends AppCompatActivity {
 //        mTextMessage = (TextView) findViewById(R.id.message);
         viewPager = (ViewPager) findViewById(R.id.pager);
         CrossRoadAdapter mAdapter = new CrossRoadAdapter(getSupportFragmentManager());
-//        mAdapter.setFragment(new ReportActivity(), new SubmitReportActivity(), new DummyActivity());
         mAdapter.setFragment(new ReportActivity(), new SubmitReportActivity(), new MapFragment());
         viewPager.setAdapter(mAdapter);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
