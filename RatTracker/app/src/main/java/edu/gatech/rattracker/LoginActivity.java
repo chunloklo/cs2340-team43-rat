@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                         User user = dataSnapshot.getValue(User.class);
                         if (user != null && username.equals(user.name) && password.equals(user.password)) {
                             User.setUser(user);
-                            Intent report = new Intent(getApplicationContext(), ReportActivity.class);
+                            Intent report = new Intent(getApplicationContext(), CrossRoadActivity.class);
                             startActivity(report);
 //                            Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
 //                            Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);

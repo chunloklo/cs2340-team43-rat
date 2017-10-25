@@ -23,7 +23,10 @@
         <activity android:name=".IndividualReportActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ReportActivity" />
-        <activity android:name=".SubmitReportActivity"></activity>
+        <activity android:name=".SubmitReportActivity" />
+        <activity
+            android:name=".CrossRoadActivity"
+            android:label="@string/title_activity_cross_road"></activity>
     </application>
 
 </manifest>
