@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,11 +32,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 //public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 public class MapFragment extends Fragment implements OnMapReadyCallback{
 
     private Report report;
+    private DatePicker startDate, endDate;
 
     public static MapFragment newInstance() {
 
@@ -62,7 +66,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_map, null);
+        View rootView = inflater.inflate(R.layout.fragment_map, null);
+
+        startDate = (DatePicker) rootView.findViewById(R.id.startDate);
+        endDate = (DatePicker) rootView.findViewById(R.id.endDate);
+
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH);
+        int day = now.get(Calendar.DAY_OF_MONTH);
+
+
+        startDate.updateDate(year - 1, month, day);
+        endDate.updateDate(year, month, day);
+
+        startDate.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                onMapReady(mMap);
+            }
+        });
+
+        endDate.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                onMapReady(mMap);
+            }
+        });
+
+        return rootView;
     }
 
     @Override
@@ -86,6 +118,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        if (googleMap == null) {
+            return;
+        }
+
         report = new Report();
         mMap = googleMap;
         mMap.clear();
@@ -106,7 +142,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         FirebaseManager firebaseManager = FirebaseManager.getInstance();
         DatabaseReference reportListener = firebaseManager.reportListener();
 
-        Query query = reportListener.limitToLast(100);
+        long dateStart = (new GregorianCalendar(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth())).getTimeInMillis();
+        long dateEnd = (new GregorianCalendar(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth())).getTimeInMillis() + 86400;
+        Log.d("dates", dateStart + "; " + dateEnd);
+//        Query query = reportListener.startAt(dateStart, "date").endAt(dateEnd, "date").limitToLast(100);
+        Query query = reportListener.orderByChild("date").startAt(dateStart).endAt(dateEnd).limitToLast(100);
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
