@@ -37,6 +37,7 @@ public class CrossRoadActivity extends AppCompatActivity {
 //                    mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
+                    viewPager.setCurrentItem(2);
 //                    mTextMessage.setText(R.string.title_notifications);
                     return true;
             }
@@ -52,7 +53,7 @@ public class CrossRoadActivity extends AppCompatActivity {
 //        mTextMessage = (TextView) findViewById(R.id.message);
         viewPager = (ViewPager) findViewById(R.id.pager);
         CrossRoadAdapter mAdapter = new CrossRoadAdapter(getSupportFragmentManager());
-        mAdapter.setFragment(new ReportActivity(), new SubmitReportActivity());
+        mAdapter.setFragment(new ReportActivity(), new SubmitReportActivity(), new MapFragment());
         viewPager.setAdapter(mAdapter);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -68,6 +69,7 @@ public class CrossRoadActivity extends AppCompatActivity {
     class CrossRoadAdapter extends FragmentPagerAdapter {
         Fragment report;
         Fragment submit;
+        Fragment map;
         public CrossRoadAdapter(FragmentManager fm) {
             super(fm);
 
@@ -80,17 +82,20 @@ public class CrossRoadActivity extends AppCompatActivity {
             } else if (i == 1) {
                 Log.d(logTag, submit.toString());
                 return submit;
+            } else if (i == 2) {
+                return map;
             }
             return report;
         }
 
         public int getCount() {
-            return 2;
+            return 3;
         }
 
-        public void setFragment(Fragment report, Fragment submit) {
+        public void setFragment(Fragment report, Fragment submit, Fragment map) {
             this.report = report;
             this.submit = submit;
+            this.map = map;
         }
     }
 

@@ -101,8 +101,17 @@ public class Sighting implements Serializable {
 
     @Override
     public String toString() {
-        Date date = new Date(this.date * 1000);
-        return date.toString() + " : " + address;
+        return "Report Details: \n"
+                + "Key: " + getKey() + "\n"
+                + "Creation Date: " + getReformedDate() + "\n"
+                + "Location Type: " + getReformedLocationType() + "\n"
+                + "Zip Code: " + getZip() + "\n"
+                + "Address: " + getAddress() + "\n"
+                + "City: " + getCity() + "\n"
+                + "Borough: " + getBorough() + "\n"
+                + "Latitude: " + getLatitude() + "\n"
+                + "Longitude: " + getLongitude();
     }
+
 
 }
