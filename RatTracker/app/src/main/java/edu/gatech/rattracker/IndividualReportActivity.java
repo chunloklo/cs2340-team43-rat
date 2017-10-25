@@ -28,22 +28,14 @@ public class IndividualReportActivity extends AppCompatActivity {
         TextView reportInfo = (TextView) findViewById(R.id.reportDetails);
 
         reportInfo.setText(
-                "Report Details: \n"
-                + "Key: " + sighting.getKey() + "\n"
-                + "Creation Date: " + sighting.getReformedDate() + "\n"
-                + "Location Type: " + sighting.getReformedLocationType() + "\n"
-                + "Zip Code: " + sighting.getZip() + "\n"
-                + "Address: " + sighting.getAddress() + "\n"
-                + "City: " + sighting.getCity() + "\n"
-                + "Borough: " + sighting.getBorough() + "\n"
-                + "Latitude: " + sighting.getLatitude() + "\n"
-                + "Longitude: " + sighting.getLongitude()
+                sighting.toString()
         );
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent report = new Intent(getApplicationContext(), CrossRoadActivity.class);
-                startActivity(report);
+//                Intent report = new Intent(getApplicationContext(), CrossRoadActivity.class);
+//                startActivity(report);
+                finish();
             }
         });
     }
