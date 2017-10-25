@@ -94,8 +94,8 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_cross_road">CrossRoadActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_reports">Reports</string>
+    <string name="title_new_report">New Report</string>
+    <string name="title_map">Map</string>
     <string name="title_activity_maps">Map</string>
 </resources>

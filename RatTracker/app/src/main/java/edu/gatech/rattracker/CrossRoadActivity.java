@@ -49,6 +49,7 @@ public class CrossRoadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Team 43 Rat Tracker");
         setContentView(R.layout.activity_cross_road);
 //        mTextMessage = (TextView) findViewById(R.id.message);
         viewPager = (ViewPager) findViewById(R.id.pager);
