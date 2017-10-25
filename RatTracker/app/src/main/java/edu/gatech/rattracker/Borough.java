@@ -5,7 +5,7 @@ package edu.gatech.rattracker;
  */
 
 public enum Borough {
-    MANHATTAN, STATEN_ISLAND, QUEENS, BROOKLYN, BRONX, NONE;
+    NONE, MANHATTAN, STATEN_ISLAND, QUEENS, BROOKLYN, BRONX;
 
     @Override public String toString(){
         return this.name();
