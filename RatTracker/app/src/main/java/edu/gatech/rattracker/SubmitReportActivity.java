@@ -124,8 +124,13 @@ public class SubmitReportActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 // return to recycler view screen on back
-                Intent report = new Intent(getActivity().getApplicationContext(), ReportActivity.class);
-                startActivity(report);
+                locationType.setText("");
+                addressText.setText("");
+                cityText.setText("");
+                boroughText.setSelection(0);
+                zipText.setText("");
+                longitudeText.setText("");
+                latitudeText.setText("");
             }
         });
 
