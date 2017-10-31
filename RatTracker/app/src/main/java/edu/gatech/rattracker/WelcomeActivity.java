@@ -24,8 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //when user clicks login
-                //Intent intent = new Intent(thisContext, LoginActivity.class);
-                Intent intent = new Intent(thisContext, GraphActivity.class);
+                Intent intent = new Intent(thisContext, LoginActivity.class);
                 startActivity(intent);
             }
         });
