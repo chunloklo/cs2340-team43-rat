@@ -98,4 +98,8 @@
     <string name="title_new_report">New Report</string>
     <string name="title_map">Map</string>
     <string name="title_activity_maps">Map</string>
+    <string-array name="month_or_year">
+        <item>Month</item>
+        <item>Year</item>
+    </string-array>
 </resources>

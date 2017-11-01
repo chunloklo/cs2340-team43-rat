@@ -9,7 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +38,8 @@ import java.util.GregorianCalendar;
 public class GraphActivity extends Fragment {
     private Report report;
     private DatePicker startDate, endDate;
+    private Spinner spinner;
+    private ArrayAdapter<CharSequence> adapter;
 
     /*
     @Override
@@ -100,7 +105,51 @@ public class GraphActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_graph, container, false);
-        
+
+        spinner = (Spinner) rootView.findViewById(R.id.month_or_year_spinner);
+        adapter = ArrayAdapter.createFromResource(getContext(), R.array.month_or_year, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        startDate = (DatePicker) rootView.findViewById(R.id.startDate);
+        endDate = (DatePicker) rootView.findViewById(R.id.endDate);
+
+
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH);
+        int day = now.get(Calendar.DAY_OF_MONTH);
+
+
+        startDate.updateDate(year - 1, month, day);
+        endDate.updateDate(year, month, day);
+
+        /*
+        startDate.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                //onMapReady(mMap);
+            }
+        });
+
+        endDate.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                //onMapReady(mMap);
+            }
+        });*/
+
         // generate Dates
         Calendar calendar = Calendar.getInstance();
         Date d1 = calendar.getTime();
