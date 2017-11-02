@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.database.DataSnapshot;
@@ -36,70 +37,10 @@ import java.util.GregorianCalendar;
  * @version 1.0
  */
 public class GraphActivity extends Fragment {
-    private Report report;
     private DatePicker startDate, endDate;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapter;
-
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph);
-
-        // generate Dates
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d3 = calendar.getTime();
-
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
-
-        graph.setTitle("Rat Sightings Over Time");
-        gridLabel.setVerticalAxisTitle("Number of Sightings");
-        gridLabel.setHorizontalAxisTitle("Date");
-
-        // you can directly pass Date objects to DataPoint-Constructor
-        // this will convert the Date to double via Date#getTime()
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(d1, 1),
-                new DataPoint(d2, 5),
-                new DataPoint(d3, 3)
-        });
-
-        graph.addSeries(series);
-
-        // set date label formatter
-
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(GraphActivity.this));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-
-        // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(d1.getTime());
-        graph.getViewport().setMaxX(d3.getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
-
-        // as we use dates as labels, the human rounding to nice readable numbers
-        // is not necessary
-        graph.getGridLabelRenderer().setHumanRounding(false);
-    } */
-
-
-    /*
-    public static GraphActivity newInstance() {
-
-        Bundle args = new Bundle();
-
-        GraphActivity fragment = new GraphActivity();
-        fragment.setArguments(args);
-        return fragment;
-    } */
-
-
-//    private GoogleApiClient mGoogleApiClient;
+    private GraphView graph;
 
     @Nullable
     @Override
@@ -113,7 +54,7 @@ public class GraphActivity extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                onGraphReady((String) parent.getItemAtPosition(position));
             }
 
             @Override
@@ -135,21 +76,29 @@ public class GraphActivity extends Fragment {
         startDate.updateDate(year - 1, month, day);
         endDate.updateDate(year, month, day);
 
-        /*
+
         startDate.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                //onMapReady(mMap);
+                onGraphReady((String) spinner.getSelectedItem());
             }
         });
 
         endDate.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                //onMapReady(mMap);
+                onGraphReady((String) spinner.getSelectedItem());
             }
-        });*/
+        });
 
+        graph = (GraphView) rootView.findViewById(R.id.graph);
+        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
+
+        graph.setTitle("Rat Sightings Over Time");
+        gridLabel.setVerticalAxisTitle("Number of Sightings");
+        gridLabel.setHorizontalAxisTitle("Date");
+
+        //FILLING THE GRAPH WITH NONSENSE DATA
         // generate Dates
         Calendar calendar = Calendar.getInstance();
         Date d1 = calendar.getTime();
@@ -157,13 +106,6 @@ public class GraphActivity extends Fragment {
         Date d2 = calendar.getTime();
         calendar.add(Calendar.DATE, 1);
         Date d3 = calendar.getTime();
-
-        GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
-        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
-
-        graph.setTitle("Rat Sightings Over Time");
-        gridLabel.setVerticalAxisTitle("Number of Sightings");
-        gridLabel.setHorizontalAxisTitle("Date");
 
         // you can directly pass Date objects to DataPoint-Constructor
         // this will convert the Date to double via Date#getTime()
@@ -192,6 +134,37 @@ public class GraphActivity extends Fragment {
         return rootView;
     }
 
+    public void onGraphReady(String monthOrYear) {
+        Toast.makeText(getContext(), monthOrYear, Toast.LENGTH_SHORT).show();
+
+        FirebaseManager firebaseManager = FirebaseManager.getInstance();
+        DatabaseReference reportListener = firebaseManager.reportListener();
+
+        long dateStart = (new GregorianCalendar(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth())).getTimeInMillis();
+        long dateEnd = (new GregorianCalendar(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth())).getTimeInMillis() + 86400;
+
+        Query query = reportListener.orderByChild("date").startAt(dateStart).endAt(dateEnd);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Sighting> sightings = new ArrayList<Sighting>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    try {
+                        Sighting sighting = postSnapshot.getValue(Sighting.class);
+                        sightings.add(sighting);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
     @Override
     public void onStart() {
         super.onStart();
