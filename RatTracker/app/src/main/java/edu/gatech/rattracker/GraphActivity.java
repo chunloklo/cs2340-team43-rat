@@ -53,6 +53,11 @@ public class GraphActivity extends Fragment {
             String month;
             String year;
             if (isValueX) {
+                if ((int)value % 100 > 11) {
+                    if ((int)value % 100 < 56) {
+                        value += 88;
+                    }
+                }
                 switch ((int)value % 100) {
                     case 0:
                         month = "Jan";
@@ -193,7 +198,6 @@ public class GraphActivity extends Fragment {
                 int month;
                 int year;
                 int yearMonth;
-                long time;
                 HashMap<Integer, Integer> frequencies = new HashMap<Integer, Integer>();
                 HashMap<Long, Integer> frequencies2 = new HashMap<Long, Integer>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -213,61 +217,49 @@ public class GraphActivity extends Fragment {
                     day = cal.get(Calendar.DAY_OF_MONTH);
                     month = cal.get(Calendar.MONTH);
                     year = cal.get(Calendar.YEAR);
-                    /*
-                    cal.set(year, month, day, 0 ,0 ,0);
-                    cal.setTimeInMillis(cal.getTimeInMillis() / 1000 * 1000);
-                    time = cal.getTimeInMillis();
-                    */
-                    yearMonth = year * 100 + month;
-                    if (frequencies.containsKey(yearMonth)) {
-                        frequencies.put(yearMonth, frequencies.get(yearMonth) + 1);
+
+                    if (monthOrYear.equals("Month")) {
+                        yearMonth = year * 100 + month;
+                        if (frequencies.containsKey(yearMonth)) {
+                            frequencies.put(yearMonth, frequencies.get(yearMonth) + 1);
+                        } else {
+                            frequencies.put(yearMonth, 1);
+                        }
                     } else {
-                        frequencies.put(yearMonth, 1);
+                        if (frequencies.containsKey(year)) {
+                            frequencies.put(year, frequencies.get(year) + 1);
+                        } else {
+                            frequencies.put(year, 1);
+                        }
                     }
-                    /*
-                    if (frequencies2.containsKey(time)) {
-                        frequencies2.put(time, frequencies2.get(time) + 1);
-                    } else {
-                        frequencies2.put(time, 1);
-                    } */
                 }
 
                 ArrayList<Integer> yearMonths = new ArrayList<Integer>(frequencies.keySet());
                 Collections.sort(yearMonths);
-                DataPoint[] dataPoints = new DataPoint[yearMonths.size()];
+                if (yearMonths.size() == 1) {
+                    yearMonths.add(yearMonths.get(0) + 1);
+                    frequencies.put(yearMonths.get(1), 0);
+                }
+                DataPoint[] dataPoints = new DataPoint[frequencies.size()];
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(yearMonths.get(i), frequencies.get(yearMonths.get(i)));
                 }
-                /*
-                ArrayList<Long> times = new ArrayList<Long>(frequencies2.keySet());
-                Collections.sort(times);
-                for (int i = 0; i < times.size(); i++) {
-                    Log.e("graph", Long.toString(times.get(i)));
-                    Log.e("graph", Long.toString(frequencies2.get(times.get(i))));
-                } */
+                //For debugging
                 for (int i = 0; i < yearMonths.size(); i++) {
                     Log.e("graph", Long.toString(yearMonths.get(i)));
                     Log.e("graph", Long.toString(frequencies.get(yearMonths.get(i))));
                 }
                 if (!yearMonths.isEmpty()) {
-                    /*
-                    DataPoint[] dataPoints = new DataPoint[times.size()];
-                    for (int i = 0; i < dataPoints.length; i++) {
-                        dataPoints[i] = new DataPoint(new Date(times.get(i)), frequencies2.get(times.get(i)));
-                    } */
-                    LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
-
-                    graph.getGridLabelRenderer().setLabelFormatter(new YearMonthFormatter());
-
+                    BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
+                    if (monthOrYear.equals("Month")) {
+                        graph.getGridLabelRenderer().setLabelFormatter(new YearMonthFormatter());
+                    } else {
+                        graph.getGridLabelRenderer().setLabelFormatter(new YearFormatter());
+                    }
                     graph.addSeries(series);
 
-                    //graph.getGridLabelRenderer().setNumHorizontalLabels(3);
-                    //graph.getGridLabelRenderer().setNumVerticalLabels(10);
-                    graph.getViewport().setMinX(yearMonths.get(0));
-                    graph.getViewport().setMaxX(yearMonths.get(yearMonths.size() - 1) + 1);
-                    //graph.getViewport().setMaxX(201711);
-                    //graph.getViewport().setMaxY(20);
-                    //graph.getViewport().setXAxisBoundsManual(true);
+                    graph.getViewport().setMinX(yearMonths.get(0) - 1);
+                    graph.getViewport().setMaxX(yearMonths.get(yearMonths.size() - 1) + 2);
                 }
 
             }
