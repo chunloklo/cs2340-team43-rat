@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +22,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 /**
  * @author Matthew Wang
@@ -42,6 +47,71 @@ public class GraphActivity extends Fragment {
     private ArrayAdapter<CharSequence> adapter;
     private GraphView graph;
 
+    private class YearMonthFormatter extends DefaultLabelFormatter {
+        @Override
+        public String formatLabel(double value, boolean isValueX) {
+            String month;
+            String year;
+            if (isValueX) {
+                switch ((int)value % 100) {
+                    case 0:
+                        month = "Jan";
+                        break;
+                    case 1:
+                        month = "Feb";
+                        break;
+                    case 2:
+                        month = "Mar";
+                        break;
+                    case 3:
+                        month = "Apr";
+                        break;
+                    case 4:
+                        month = "May";
+                        break;
+                    case 5:
+                        month = "Jun";
+                        break;
+                    case 6:
+                        month = "Jul";
+                        break;
+                    case 7:
+                        month = "Aug";
+                        break;
+                    case 8:
+                        month = "Sep";
+                        break;
+                    case 9:
+                        month = "Oct";
+                        break;
+                    case 10:
+                        month = "Nov";
+                        break;
+                    case 11:
+                        month = "Dec";
+                        break;
+                    default:
+                        month = "N/A";
+                }
+                year = Integer.toString((int)value / 100);
+                return month + " " + year;
+            } else {
+                return super.formatLabel(value, isValueX);
+            }
+        }
+    }
+
+    private class YearFormatter extends DefaultLabelFormatter {
+        @Override
+        public String formatLabel(double value, boolean isValueX) {
+            String year;
+            if (isValueX) {
+                return Integer.toString((int)value);
+            } else {
+                return super.formatLabel(value, isValueX);
+            }
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,44 +167,10 @@ public class GraphActivity extends Fragment {
         graph.setTitle("Rat Sightings Over Time");
         gridLabel.setVerticalAxisTitle("Number of Sightings");
         gridLabel.setHorizontalAxisTitle("Date");
-
-        //FILLING THE GRAPH WITH NONSENSE DATA
-        // generate Dates
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d3 = calendar.getTime();
-
-        // you can directly pass Date objects to DataPoint-Constructor
-        // this will convert the Date to double via Date#getTime()
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(d1, 1),
-                new DataPoint(d2, 5),
-                new DataPoint(d3, 3)
-        });
-
-        graph.addSeries(series);
-
-        // set date label formatter
-
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-
-        // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(d1.getTime());
-        graph.getViewport().setMaxX(d3.getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
-
-        // as we use dates as labels, the human rounding to nice readable numbers
-        // is not necessary
-        graph.getGridLabelRenderer().setHumanRounding(false);
-
         return rootView;
     }
 
-    public void onGraphReady(String monthOrYear) {
+    public void onGraphReady(final String monthOrYear) {
         Toast.makeText(getContext(), monthOrYear, Toast.LENGTH_SHORT).show();
 
         FirebaseManager firebaseManager = FirebaseManager.getInstance();
@@ -147,7 +183,19 @@ public class GraphActivity extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                graph.removeAllSeries();
                 ArrayList<Sighting> sightings = new ArrayList<Sighting>();
+                //ArrayList<Date> dates = new ArrayList<Date>();
+                //ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
+                Calendar cal = Calendar.getInstance();
+                Date date;
+                int day;
+                int month;
+                int year;
+                int yearMonth;
+                long time;
+                HashMap<Integer, Integer> frequencies = new HashMap<Integer, Integer>();
+                HashMap<Long, Integer> frequencies2 = new HashMap<Long, Integer>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                     try {
@@ -156,6 +204,72 @@ public class GraphActivity extends Fragment {
                     } catch (Exception e) {
                     }
                 }
+
+                for (Sighting sighting : sightings) {
+                    date = new Date(sighting.getDate());
+
+                    cal.setTime(date);
+
+                    day = cal.get(Calendar.DAY_OF_MONTH);
+                    month = cal.get(Calendar.MONTH);
+                    year = cal.get(Calendar.YEAR);
+                    /*
+                    cal.set(year, month, day, 0 ,0 ,0);
+                    cal.setTimeInMillis(cal.getTimeInMillis() / 1000 * 1000);
+                    time = cal.getTimeInMillis();
+                    */
+                    yearMonth = year * 100 + month;
+                    if (frequencies.containsKey(yearMonth)) {
+                        frequencies.put(yearMonth, frequencies.get(yearMonth) + 1);
+                    } else {
+                        frequencies.put(yearMonth, 1);
+                    }
+                    /*
+                    if (frequencies2.containsKey(time)) {
+                        frequencies2.put(time, frequencies2.get(time) + 1);
+                    } else {
+                        frequencies2.put(time, 1);
+                    } */
+                }
+
+                ArrayList<Integer> yearMonths = new ArrayList<Integer>(frequencies.keySet());
+                Collections.sort(yearMonths);
+                DataPoint[] dataPoints = new DataPoint[yearMonths.size()];
+                for (int i = 0; i < dataPoints.length; i++) {
+                    dataPoints[i] = new DataPoint(yearMonths.get(i), frequencies.get(yearMonths.get(i)));
+                }
+                /*
+                ArrayList<Long> times = new ArrayList<Long>(frequencies2.keySet());
+                Collections.sort(times);
+                for (int i = 0; i < times.size(); i++) {
+                    Log.e("graph", Long.toString(times.get(i)));
+                    Log.e("graph", Long.toString(frequencies2.get(times.get(i))));
+                } */
+                for (int i = 0; i < yearMonths.size(); i++) {
+                    Log.e("graph", Long.toString(yearMonths.get(i)));
+                    Log.e("graph", Long.toString(frequencies.get(yearMonths.get(i))));
+                }
+                if (!yearMonths.isEmpty()) {
+                    /*
+                    DataPoint[] dataPoints = new DataPoint[times.size()];
+                    for (int i = 0; i < dataPoints.length; i++) {
+                        dataPoints[i] = new DataPoint(new Date(times.get(i)), frequencies2.get(times.get(i)));
+                    } */
+                    LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
+
+                    graph.getGridLabelRenderer().setLabelFormatter(new YearMonthFormatter());
+
+                    graph.addSeries(series);
+
+                    //graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+                    //graph.getGridLabelRenderer().setNumVerticalLabels(10);
+                    graph.getViewport().setMinX(yearMonths.get(0));
+                    graph.getViewport().setMaxX(yearMonths.get(yearMonths.size() - 1) + 1);
+                    //graph.getViewport().setMaxX(201711);
+                    //graph.getViewport().setMaxY(20);
+                    //graph.getViewport().setXAxisBoundsManual(true);
+                }
+
             }
 
             @Override
