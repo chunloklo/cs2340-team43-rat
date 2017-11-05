@@ -95,26 +95,13 @@
             style="@style/buttonColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/latitudeInput"
             android:layout_marginBottom="26dp"
-            android:layout_marginStart="46dp"
             android:text="Submit"
             tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="273dp" />
-
-        <Button
-            android:id="@+id/cancelButton"
-            style="@style/buttonColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/submitButton"
-            android:layout_alignBottom="@+id/submitButton"
+            tools:layout_editor_absoluteY="273dp"
+            android:layout_alignParentBottom="true"
             android:layout_alignEnd="@+id/latitudeInput"
-            android:layout_marginEnd="46dp"
-            android:text="Cancel"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="422dp" />
+            android:layout_alignStart="@+id/latitudeInput" />
 
         <Spinner
             android:id="@+id/spinner"
