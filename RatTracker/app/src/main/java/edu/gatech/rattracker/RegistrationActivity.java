@@ -73,7 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             // no user with this name exists; make them an acct
                             User.setUser(firebaseManager.writeNewUser(username, password, isAdmin));
 
-                            Intent report = new Intent(getApplicationContext(), ReportActivity.class);
+                            Intent report = new Intent(getApplicationContext(), CrossRoadActivity.class);
                             startActivity(report);
 //                            Toast.makeText(getApplicationContext(), "Welcome " + username, Toast.LENGTH_SHORT).show();
 //                            Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
