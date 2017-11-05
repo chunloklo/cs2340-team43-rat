@@ -118,21 +118,21 @@ public class SubmitReportActivity extends Fragment {
         final EditText latitudeText = (EditText) rootView.findViewById(R.id.latitudeInput);
 
         Button submitButton = (Button) rootView.findViewById(R.id.submitButton);
-//        Button cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
-//
-//        cancelButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // return to recycler view screen on back
-//                locationType.setText("");
-//                addressText.setText("");
-//                cityText.setText("");
-//                boroughText.setSelection(0);
-//                zipText.setText("");
-//                longitudeText.setText("");
-//                latitudeText.setText("");
-//            }
-//        });
+        Button cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // return to recycler view screen on back
+                locationType.setText("");
+                addressText.setText("");
+                cityText.setText("");
+                boroughText.setSelection(0);
+                zipText.setText("");
+                longitudeText.setText("");
+                latitudeText.setText("");
+            }
+        });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
