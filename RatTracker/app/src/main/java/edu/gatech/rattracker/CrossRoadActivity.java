@@ -29,16 +29,17 @@ public class CrossRoadActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     viewPager.setCurrentItem(0);
-//                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_dashboard:
                     Log.d(logTag, "" + R.id.navigation_dashboard);
                     viewPager.setCurrentItem(1);
-//                    mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
                     viewPager.setCurrentItem(2);
-//                    mTextMessage.setText(R.string.title_notifications);
+                    return true;
+
+                case R.id.navigation_graphs:
+                    viewPager.setCurrentItem(3);
                     return true;
             }
             return false;
@@ -51,10 +52,16 @@ public class CrossRoadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle("Team 43 Rat Tracker");
         setContentView(R.layout.activity_cross_road);
-//        mTextMessage = (TextView) findViewById(R.id.message);
         viewPager = (ViewPager) findViewById(R.id.pager);
         CrossRoadAdapter mAdapter = new CrossRoadAdapter(getSupportFragmentManager());
-        mAdapter.setFragment(new GraphActivity(), new SubmitReportActivity(), new MapFragment());
+
+        Fragment[] fragments = new Fragment[4];
+        fragments[0] = new ReportActivity();
+        fragments[1] = new SubmitReportActivity();
+        fragments[2] = new MapFragment();
+        fragments[3] = new GraphActivity();
+
+        mAdapter.setFragment(fragments);
         viewPager.setAdapter(mAdapter);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -68,35 +75,22 @@ public class CrossRoadActivity extends AppCompatActivity {
     }
 
     class CrossRoadAdapter extends FragmentPagerAdapter {
-        Fragment report;
-        Fragment submit;
-        Fragment map;
+        Fragment[] fragments;
+
         public CrossRoadAdapter(FragmentManager fm) {
             super(fm);
 
         }
         public Fragment getItem(int i) {
-            Log.d(logTag, "" + i);
-            if (i == 0) {
-                Log.d(logTag, report.toString());
-                return report;
-            } else if (i == 1) {
-                Log.d(logTag, submit.toString());
-                return submit;
-            } else if (i == 2) {
-                return map;
-            }
-            return report;
+           return fragments[i];
         }
 
         public int getCount() {
-            return 3;
+            return fragments.length;
         }
 
-        public void setFragment(Fragment report, Fragment submit, Fragment map) {
-            this.report = report;
-            this.submit = submit;
-            this.map = map;
+        public void setFragment(Fragment[] fragments) {
+            this.fragments = fragments;
         }
     }
 

@@ -164,14 +164,14 @@ public class SubmitReportActivity extends Fragment {
                 // Grabs FirebaseManager
                 final FirebaseManager firebaseManager = FirebaseManager.getInstance();
                 boolean success = firebaseManager.addSighting(sighting);
-                if (success) {
-                    locationType.setText("");
-                    addressText.setText("");
-                    cityText.setText("");
-                    boroughText.setSelection(0);
-                    zipText.setText("");
-                    longitudeText.setText("");
-                    latitudeText.setText("");
+                    if (success) {
+                        locationType.setText("");
+                        addressText.setText("");
+                        cityText.setText("");
+                        boroughText.setSelection(0);
+                        zipText.setText("");
+                        longitudeText.setText("");
+                        latitudeText.setText("");
                     Toast.makeText(getActivity().getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
 //                    ViewPager viewPager = getActivity().findViewById(R.id.pager);
                     BottomNavigationView nav = getActivity().findViewById(R.id.navigation);
