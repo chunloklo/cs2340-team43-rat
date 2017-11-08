@@ -64,7 +64,7 @@ public class GraphActivity extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Log.e("graph", "Nothing selected bug on spinner.")
+                Log.e("graph", "Nothing selected bug on spinner.");
             }
         });
 
