@@ -252,7 +252,7 @@ public class GraphActivity extends Fragment {
         }
     }
 
-    protected String XAxisLabelMaker(double originalValue, boolean isByMonth) {
+    String XAxisLabelMaker(double originalValue, boolean isByMonth) {
         String month;
         String year;
         if (isByMonth) {
