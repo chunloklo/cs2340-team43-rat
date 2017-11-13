@@ -208,7 +208,11 @@ public class GraphActivity extends Fragment {
      * @return the month as an int 0-11
      */
     private int unixMonthToMonth(int unixMonth) {
-        return unixMonth % 12;
+        int result = unixMonth % 12;
+        if (result < 0) {
+            result += 12;
+        }
+        return result;
     }
 
     /**
@@ -217,7 +221,7 @@ public class GraphActivity extends Fragment {
      * @return the year as a 4 digit int
      */
     private int unixMonthToYear(int unixMonth) {
-        return 1970 + unixMonth / 12;
+        return 1970 + (int) Math.floor(unixMonth / 12.0);
     }
 
     /**
@@ -226,15 +230,8 @@ public class GraphActivity extends Fragment {
     private class MonthFormatter extends DefaultLabelFormatter {
         @Override
         public String formatLabel(double value, boolean isValueX) {
-            String month;
-            String[] months = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-            "Sep", "Oct", "Nov", "Dec"};
-            String year;
             if (isValueX) {
-                int unixMonth = (int) value;
-                month = months[unixMonthToMonth(unixMonth)];
-                year = Integer.toString(unixMonthToYear(unixMonth));
-                return month + " " + year;
+                return XAxisLabelMaker(value, true);
             } else {
                 return super.formatLabel(value, isValueX);
             }
@@ -247,13 +244,27 @@ public class GraphActivity extends Fragment {
     private class YearFormatter extends DefaultLabelFormatter {
         @Override
         public String formatLabel(double value, boolean isValueX) {
-            String year;
             if (isValueX) {
-                year = Integer.toString((int)value);
-                return year;
+                return XAxisLabelMaker(value, false);
             } else {
                 return super.formatLabel(value, isValueX);
             }
+        }
+    }
+
+    protected String XAxisLabelMaker(double originalValue, boolean isByMonth) {
+        String month;
+        String year;
+        if (isByMonth) {
+            String[] months = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+                    "Sep", "Oct", "Nov", "Dec"};
+            int unixMonth = (int) originalValue;
+            month = months[unixMonthToMonth(unixMonth)];
+            year = Integer.toString(unixMonthToYear(unixMonth));
+            return month + " " + year;
+        } else {
+            year = Integer.toString((int) originalValue);
+            return year;
         }
     }
 }
