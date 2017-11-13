@@ -57,8 +57,8 @@
             android:layout_below="@+id/textView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="74dp"
+            android:contentDescription="Rat Image"
             app:srcCompat="@drawable/rat"
-            tools:layout_editor_absoluteX="70dp"
             tools:layout_editor_absoluteY="99dp" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
