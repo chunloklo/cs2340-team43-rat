@@ -27,9 +27,25 @@ public class Sighting implements Serializable {
     private double longitude;
     private double latitude;
 
+    /**
+     * Creates a sighting without initial information.
+     */
     public Sighting() {
     }
 
+    /**
+     * Creates sighting with provided information.
+     *
+     * @param aKey key for Firebase database
+     * @param aDate the date of the sighting as a Unix timestamp in milliseconds
+     * @param aType the type of sighting
+     * @param aZip the zip code of the sighting
+     * @param aAddress the address of the sighting
+     * @param aCity the city of the sighting
+     * @param aBorough the borough of the sighting
+     * @param aLongitude the longitude of the sighting
+     * @param aLatitude the latitude of the sighting
+     */
     public Sighting(String aKey, long aDate, String aType, long aZip, String aAddress,
                     String aCity, String aBorough, double aLongitude, double aLatitude) {
         key = aKey;
@@ -58,6 +74,11 @@ public class Sighting implements Serializable {
         return sdf.format(new Date(this.date));
     }
 
+    /**
+     * Reforms location type
+     *
+     * @return the decoded location type
+     */
     @Exclude
     public String getReformedLocationType() {
         try {
