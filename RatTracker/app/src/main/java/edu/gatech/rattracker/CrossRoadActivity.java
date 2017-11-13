@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class CrossRoadActivity extends AppCompatActivity {
 
@@ -20,7 +19,7 @@ public class CrossRoadActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private final String logTag = "crossroadActivity";
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -52,7 +51,7 @@ public class CrossRoadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle("Team 43 Rat Tracker");
         setContentView(R.layout.activity_cross_road);
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = findViewById(R.id.pager);
         CrossRoadAdapter mAdapter = new CrossRoadAdapter(getSupportFragmentManager());
 
         Fragment[] fragments = new Fragment[4];
@@ -63,7 +62,7 @@ public class CrossRoadActivity extends AppCompatActivity {
 
         mAdapter.setFragment(fragments);
         viewPager.setAdapter(mAdapter);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 

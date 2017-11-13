@@ -17,8 +17,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
         final Context thisContext = this;
 
-        Button loginButton = (Button) findViewById(R.id.welcomeLoginButton);
-        Button registerButton = (Button) findViewById(R.id.welcomeRegisterButton);
+        Button loginButton = findViewById(R.id.welcomeLoginButton);
+        Button registerButton = findViewById(R.id.welcomeRegisterButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

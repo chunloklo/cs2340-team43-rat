@@ -42,6 +42,7 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
+    //built map using that version. cant update yet?
     compile 'com.google.android.gms:play-services-maps:10.0.1'
     compile 'com.jjoe64:graphview:4.2.1'
     testCompile 'junit:junit:4.12'

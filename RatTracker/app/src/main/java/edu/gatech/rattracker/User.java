@@ -1,13 +1,14 @@
 package edu.gatech.rattracker;
 
 /**
+ * User class contains info about user
  * Created by Chunlok Lo on 10/1/2017.
  */
 
 public class User {
-    public String name;
-    public String password;
-    public boolean isAdmin;
+    public final String name;
+    public final String password;
+    public final boolean isAdmin;
 
     public User(String name, String password, Boolean isAdmin) {
         this.name = name;

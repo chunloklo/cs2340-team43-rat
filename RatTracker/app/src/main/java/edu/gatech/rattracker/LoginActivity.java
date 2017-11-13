@@ -24,11 +24,11 @@ public class LoginActivity extends AppCompatActivity {
         final String logTag = "LoginActivity";
 
         //fetch text input, button
-        final EditText usernameButton = (EditText) findViewById(R.id.usernameInput);
-        final EditText passwordButton = (EditText) findViewById(R.id.passwordInput);
+        final EditText usernameButton = findViewById(R.id.usernameInput);
+        final EditText passwordButton = findViewById(R.id.passwordInput);
 
-        Button loginButton = (Button) findViewById(R.id.registerButton);
-        Button backButton = (Button) findViewById(R.id.backButton);
+        Button loginButton = findViewById(R.id.registerButton);
+        Button backButton = findViewById(R.id.backButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

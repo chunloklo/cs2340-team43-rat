@@ -16,8 +16,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        TextView welcomeText = (TextView) findViewById(R.id.helloText);
-        Button logOut = (Button) findViewById(R.id.logOut);
+        TextView welcomeText = findViewById(R.id.helloText);
+        Button logOut = findViewById(R.id.logOut);
 
 
         if (User.getCurrentUser() == null || User.getCurrentUser().name == null) {

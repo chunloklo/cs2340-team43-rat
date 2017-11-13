@@ -1,6 +1,7 @@
 package edu.gatech.rattracker;
 
 /**
+ * Borough Enum
  * Created by Chunlok Lo on 10/18/2017.
  */
 

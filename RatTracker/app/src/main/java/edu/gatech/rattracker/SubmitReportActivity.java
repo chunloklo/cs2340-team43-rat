@@ -1,12 +1,9 @@
 package edu.gatech.rattracker;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TabHost;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -107,18 +103,18 @@ public class SubmitReportActivity extends Fragment {
         final String logTag = "SubmitReportActivity";
 
         // fetch text inputs, coordinates, and buttons
-        final EditText locationType = (EditText) rootView.findViewById(R.id.typeInput);
-        final EditText addressText = (EditText) rootView.findViewById(R.id.addressInput);
-        final EditText cityText = (EditText) rootView.findViewById(R.id.cityInput);
-        final Spinner boroughText = (Spinner) rootView.findViewById(R.id.spinner);
+        final EditText locationType = rootView.findViewById(R.id.typeInput);
+        final EditText addressText = rootView.findViewById(R.id.addressInput);
+        final EditText cityText = rootView.findViewById(R.id.cityInput);
+        final Spinner boroughText = rootView.findViewById(R.id.spinner);
         boroughText.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Borough.values()));
 
-        final EditText zipText = (EditText) rootView.findViewById(R.id.zipInput);
-        final EditText longitudeText = (EditText) rootView.findViewById(R.id.longitudeInput);
-        final EditText latitudeText = (EditText) rootView.findViewById(R.id.latitudeInput);
+        final EditText zipText = rootView.findViewById(R.id.zipInput);
+        final EditText longitudeText = rootView.findViewById(R.id.longitudeInput);
+        final EditText latitudeText = rootView.findViewById(R.id.latitudeInput);
 
-        Button submitButton = (Button) rootView.findViewById(R.id.submitButton);
-        Button cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
+        Button submitButton = rootView.findViewById(R.id.submitButton);
+        Button cancelButton = rootView.findViewById(R.id.cancelButton);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override

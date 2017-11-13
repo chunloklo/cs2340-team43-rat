@@ -38,7 +38,6 @@ import java.util.HashMap;
 public class GraphActivity extends Fragment {
     private DatePicker startDate, endDate;
     private Spinner spinner;
-    private ArrayAdapter<CharSequence> adapter;
     private GraphView graph;
 
     @Nullable
@@ -46,14 +45,14 @@ public class GraphActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_graph, container, false);
 
-        graph = (GraphView) rootView.findViewById(R.id.graph);
+        graph = rootView.findViewById(R.id.graph);
         graph.setTitle("Rat Sightings Over Time");
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         gridLabel.setVerticalAxisTitle("Number of Sightings");
         gridLabel.setHorizontalAxisTitle("Date");
 
-        spinner = (Spinner) rootView.findViewById(R.id.month_or_year_spinner);
-        adapter = ArrayAdapter.createFromResource(getContext(), R.array.month_or_year, android.R.layout.simple_spinner_item);
+        spinner = rootView.findViewById(R.id.month_or_year_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.month_or_year, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -68,8 +67,8 @@ public class GraphActivity extends Fragment {
             }
         });
 
-        startDate = (DatePicker) rootView.findViewById(R.id.startDate);
-        endDate = (DatePicker) rootView.findViewById(R.id.endDate);
+        startDate = rootView.findViewById(R.id.startDate);
+        endDate = rootView.findViewById(R.id.endDate);
 
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
@@ -96,7 +95,7 @@ public class GraphActivity extends Fragment {
         return rootView;
     }
 
-    public void onGraphReady(final String monthOrYear) {
+    private void onGraphReady(final String monthOrYear) {
         FirebaseManager firebaseManager = FirebaseManager.getInstance();
         DatabaseReference reportListener = firebaseManager.reportListener();
 
@@ -108,13 +107,15 @@ public class GraphActivity extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 graph.removeAllSeries();
-                ArrayList<Sighting> sightings = new ArrayList<Sighting>();
+                ArrayList<Sighting> sightings = new ArrayList<>();
                 Calendar cal = Calendar.getInstance();
                 Date date;
                 int month;
                 int year;
                 int unixMonth;
-                HashMap<Integer, Integer> frequencies = new HashMap<Integer, Integer>();
+                //Hashamp is used because it provides method for getting sets of keys and values
+                //which SparseIntArray does not allow
+                HashMap<Integer, Integer> frequencies = new HashMap<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     try {
                         Sighting sighting = postSnapshot.getValue(Sighting.class);
@@ -151,7 +152,7 @@ public class GraphActivity extends Fragment {
                     }
                 }
 
-                ArrayList<Integer> dates = new ArrayList<Integer>(frequencies.keySet());
+                ArrayList<Integer> dates = new ArrayList<>(frequencies.keySet());
                 Collections.sort(dates);
                 //Creates an zeroed data point if there's only 1 data point because GraphView can't show a single data point.
                 if (dates.size() == 1) {
@@ -185,14 +186,6 @@ public class GraphActivity extends Fragment {
             }
         });
 
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    public void onStop() {
-        super.onStop();
     }
 
     /**

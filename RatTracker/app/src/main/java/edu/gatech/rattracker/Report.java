@@ -11,12 +11,12 @@ import java.util.List;
  * @version 1.0
  */
 
-public class Report {
+class Report {
     private List<Sighting> sightings;
-    private HashMap<String, Sighting> sightingHashMap;
+    private final HashMap<String, Sighting> sightingHashMap;
 
     public Report() {
-        sightings = new ArrayList<Sighting>();
+        sightings = new ArrayList<>();
         sightingHashMap = new HashMap<>();
     }
 

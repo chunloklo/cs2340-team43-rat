@@ -2,7 +2,6 @@ package edu.gatech.rattracker;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,16 +11,17 @@ import android.widget.TextView;
 
 
 /**
+ * Report Adapter for reports
  * Created by Chunlok Lo on 10/8/2017.
  */
 
 public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private Report report;
+    private final Report report;
     private final String logTag = "reportAdapter";
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView header;
+        public final TextView header;
         public Sighting sighting;
 
         public void setSighting(Sighting sighting) {
@@ -51,8 +51,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public ReportAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.view_sighting, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)

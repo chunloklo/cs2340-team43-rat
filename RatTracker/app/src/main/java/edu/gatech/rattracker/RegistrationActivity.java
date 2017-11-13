@@ -25,12 +25,12 @@ public class RegistrationActivity extends AppCompatActivity {
         final String logTag = "RegistrationActivity";
 
         //fetch inputs and buttons
-        final EditText usernameButton = (EditText) findViewById(R.id.usernameInput);
-        final EditText passwordButton = (EditText) findViewById(R.id.passwordInput);
-        final CheckBox checkbox = (CheckBox) findViewById(R.id.isAdminCheckBox);
+        final EditText usernameButton = findViewById(R.id.usernameInput);
+        final EditText passwordButton = findViewById(R.id.passwordInput);
+        final CheckBox checkbox = findViewById(R.id.isAdminCheckBox);
 
-        Button registerButton = (Button) findViewById(R.id.registerButton);
-        Button backButton = (Button) findViewById(R.id.backButton);
+        Button registerButton = findViewById(R.id.registerButton);
+        Button backButton = findViewById(R.id.backButton);
 
 
         backButton.setOnClickListener(new View.OnClickListener() {
