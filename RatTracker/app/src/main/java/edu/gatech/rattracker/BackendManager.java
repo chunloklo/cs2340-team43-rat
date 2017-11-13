@@ -38,12 +38,18 @@ class BackendManager {
 
     public static boolean validateUserPassword(String username, String password, Context context) {
         if (username.trim().length() == 0) {
-            Toast.makeText(context, "Please enter an alphanumeric username", Toast.LENGTH_SHORT).show();
+            if (context != null) {
+                Toast.makeText(context, "Please enter an alphanumeric username", Toast.LENGTH_SHORT).show();
+            }
+
             return false;
         }
 
         if (password.length() < passLength) {
-            Toast.makeText(context, "You need a password longer than " + passLength + " characters", Toast.LENGTH_SHORT).show();
+            if (context != null) {
+                Toast.makeText(context, "You need a password longer than " + passLength + " characters", Toast.LENGTH_SHORT).show();
+            }
+
             return false;
         }
 
