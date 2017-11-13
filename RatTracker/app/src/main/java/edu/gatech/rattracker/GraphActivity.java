@@ -233,15 +233,8 @@ public class GraphActivity extends Fragment {
     private class MonthFormatter extends DefaultLabelFormatter {
         @Override
         public String formatLabel(double value, boolean isValueX) {
-            String month;
-            String[] months = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-            "Sep", "Oct", "Nov", "Dec"};
-            String year;
             if (isValueX) {
-                int unixMonth = (int) value;
-                month = months[unixMonthToMonth(unixMonth)];
-                year = Integer.toString(unixMonthToYear(unixMonth));
-                return month + " " + year;
+                return XAxisLabelMaker(value, true);
             } else {
                 return super.formatLabel(value, isValueX);
             }
@@ -254,13 +247,27 @@ public class GraphActivity extends Fragment {
     private class YearFormatter extends DefaultLabelFormatter {
         @Override
         public String formatLabel(double value, boolean isValueX) {
-            String year;
             if (isValueX) {
-                year = Integer.toString((int)value);
-                return year;
+                return XAxisLabelMaker(value, false);
             } else {
                 return super.formatLabel(value, isValueX);
             }
+        }
+    }
+
+    protected String XAxisLabelMaker(double originalValue, boolean isByMonth) {
+        String month;
+        String year;
+        if (isByMonth) {
+            String[] months = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+                    "Sep", "Oct", "Nov", "Dec"};
+            int unixMonth = (int) originalValue;
+            month = months[unixMonthToMonth(unixMonth)];
+            year = Integer.toString(unixMonthToYear(unixMonth));
+            return month + " " + year;
+        } else {
+            year = Integer.toString((int) originalValue);
+            return year;
         }
     }
 }
