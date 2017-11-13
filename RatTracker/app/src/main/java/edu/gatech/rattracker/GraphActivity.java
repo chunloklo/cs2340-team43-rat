@@ -215,7 +215,11 @@ public class GraphActivity extends Fragment {
      * @return the month as an int 0-11
      */
     private int unixMonthToMonth(int unixMonth) {
-        return unixMonth % 12;
+        int result = unixMonth % 12;
+        if (result < 0) {
+            result += 12;
+        }
+        return result;
     }
 
     /**
@@ -224,7 +228,7 @@ public class GraphActivity extends Fragment {
      * @return the year as a 4 digit int
      */
     private int unixMonthToYear(int unixMonth) {
-        return 1970 + unixMonth / 12;
+        return 1970 + (int) Math.floor(unixMonth / 12.0);
     }
 
     /**
