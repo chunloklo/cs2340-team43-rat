@@ -16,7 +16,6 @@ public class IndividualReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_report);
-        final String logTag = "individual_report activity";
 
         Sighting sighting = (Sighting) this.getIntent().getSerializableExtra("sighting");
         Button returnButton = findViewById(R.id.returnButton);

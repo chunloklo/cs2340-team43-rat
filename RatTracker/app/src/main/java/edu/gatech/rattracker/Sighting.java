@@ -89,10 +89,6 @@ public class Sighting implements Serializable {
         }
     }
 
-    public String getType() {
-        return type;
-    }
-
     public long getZip() {
         return zip;
     }

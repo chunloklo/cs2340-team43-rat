@@ -22,8 +22,6 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        final String logTag = "RegistrationActivity";
-
         //fetch inputs and buttons
         final EditText usernameButton = findViewById(R.id.usernameInput);
         final EditText passwordButton = findViewById(R.id.passwordInput);

@@ -113,7 +113,7 @@ public class GraphActivity extends Fragment {
                 int month;
                 int year;
                 int unixMonth;
-                //Hashamp is used because it provides method for getting sets of keys and values
+                //Hashmap is used because it provides method for getting sets of keys and values
                 //which SparseIntArray does not allow
                 HashMap<Integer, Integer> frequencies = new HashMap<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -233,7 +233,7 @@ public class GraphActivity extends Fragment {
             if (isValueX) {
                 return XAxisLabelMaker(value, true);
             } else {
-                return super.formatLabel(value, isValueX);
+                return super.formatLabel(value, false);
             }
         }
     }
@@ -247,7 +247,7 @@ public class GraphActivity extends Fragment {
             if (isValueX) {
                 return XAxisLabelMaker(value, false);
             } else {
-                return super.formatLabel(value, isValueX);
+                return super.formatLabel(value, false);
             }
         }
     }

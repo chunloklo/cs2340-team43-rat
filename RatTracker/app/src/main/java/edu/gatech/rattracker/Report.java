@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Structurer for a list of RatSightings.
+ * Structures a list of RatSightings.
  *
  * @author Jiseok Choi
  * @version 1.0

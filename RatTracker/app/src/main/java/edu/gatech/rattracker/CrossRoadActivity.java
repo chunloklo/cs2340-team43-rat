@@ -17,7 +17,6 @@ public class CrossRoadActivity extends AppCompatActivity {
 
 //    private TextView mTextMessage;
     private ViewPager viewPager;
-    private final String logTag = "crossroadActivity";
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -30,6 +29,7 @@ public class CrossRoadActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(0);
                     return true;
                 case R.id.navigation_dashboard:
+                    String logTag = "crossroadActivity";
                     Log.d(logTag, "" + R.id.navigation_dashboard);
                     viewPager.setCurrentItem(1);
                     return true;
