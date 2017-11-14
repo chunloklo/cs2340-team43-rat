@@ -233,7 +233,7 @@ public class GraphActivity extends Fragment {
             if (isValueX) {
                 return XAxisLabelMaker(value, true);
             } else {
-                return super.formatLabel(value, isValueX);
+                return super.formatLabel(value, false);
             }
         }
     }

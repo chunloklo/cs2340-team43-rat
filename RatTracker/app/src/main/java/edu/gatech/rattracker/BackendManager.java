@@ -13,7 +13,6 @@ import android.widget.Toast;
  */
 
 class BackendManager {
-    private final static String logTag = "BackendManager";
     private final static int passLength = 6;
 
 
