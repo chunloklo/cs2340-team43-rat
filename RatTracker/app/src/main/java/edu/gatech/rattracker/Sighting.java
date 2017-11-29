@@ -113,6 +113,8 @@ public class Sighting implements Serializable {
         return latitude;
     }
 
+    public String getType() {return type;}
+
     public void setKey(String aKey) {
         key = aKey;
     }
